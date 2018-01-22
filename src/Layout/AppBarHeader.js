@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import decode from 'jwt-decode';
 
+import {APP_TITLE} from '../Config'
 import { ProfileButton } from './ProfileButton';
 import { ProfileMenu } from './ProfileMenu';
 import { SignInButton } from './SignInButton';
@@ -84,7 +85,7 @@ export class AppBarHeader extends Component {
         return (
             <div>
                 <AppBar
-                    title="Janrain Private Groups Demo"
+                    title={APP_TITLE}
                     iconElementRight={this.handleMenuState()}
                     showMenuIconButton={true}
                     onLeftIconButtonClick={this.props.toggleDrawer}
