@@ -31,7 +31,7 @@ export class FamilyMembers extends Component {
             const membersActions = []
             if (this.props.isHeadOf) {
                 membersActions.push(
-                    <FlatButton label="Invite Members" onClick={this.handleOpenInviteDialog} />)
+                    <FlatButton label="Invite Members" onClick={this.handleOpenInviteDialog} key='invite'/>)
             }
 
             const inviteDialogActions = [
