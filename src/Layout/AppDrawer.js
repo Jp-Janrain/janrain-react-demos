@@ -3,7 +3,7 @@ import Drawer from 'material-ui/Drawer';
 
 import { AppDrawerLink } from './AppDrawerLink';
 import AppBar from 'material-ui/AppBar/AppBar';
-import { isLoggedIn } from '../AuthService';
+import { isLoggedIn } from '../Auth/AuthService';
 
 const securedLink = (returnValue) => {
     return isLoggedIn() ? returnValue : null

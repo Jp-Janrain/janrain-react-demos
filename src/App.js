@@ -3,12 +3,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { BrowserRouter as Router } from 'react-router-dom'
 import Route from 'react-router-dom/Route';
 
-import { Families } from './components/Families';
-import { AppDrawer } from './components/AppDrawer';
-import { AppBarHeader } from './components/AppBarHeader';
-import { Callback } from './components/Callback';
-import { isLoggedIn } from './AuthService';
-import { UnAuthorized } from './components/UnAuthorized';
+import { FamiliesContainer } from './IdentityGroups/Families/FamiliesContainer';
+import { AppDrawer } from './Layout/AppDrawer';
+import { AppBarHeader } from './Layout/AppBarHeader';
+import { Callback } from './Auth/Callback';
+import { isLoggedIn } from './Auth/AuthService'
+import { UnAuthorized } from './Layout/UnAuthorized';
+
 
 const styles = {
   root: {
@@ -64,7 +65,7 @@ export class App extends Component {
               handleToggle={this.handleDrawerToggle} />
             {/* <Route path="/families" component={Families} /> */}
             <div style={styles.root}>
-              <Route path="/families" component={this.securePath(Families)} />
+              <Route path="/families" component={this.securePath(FamiliesContainer)} />
             </div>
           </div>
         </Router>

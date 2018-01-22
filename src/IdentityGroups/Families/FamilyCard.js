@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Card, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
-import { PG_ENDPOINT } from '../Config';
-import { keepPrivateGroupsTokenActive } from '../lib/PrivateGroups';
+import { IG_ENDPOINT } from '../../Config';
+import { keepIdentityGroupsTokenActive } from '../IdentityGroupsAPI';
 import { FamilyDetails } from './FamilyDetails';
 import CardTitle from 'material-ui/Card/CardTitle';
 
@@ -19,13 +19,13 @@ export class FamilyCard extends Component {
   }
 
   componentWillMount() {
-    keepPrivateGroupsTokenActive()
+    keepIdentityGroupsTokenActive()
   }
 
   componentDidMount() {
-    const accessToken = localStorage.getItem('privategroups_access_token')
+    const accessToken = localStorage.getItem('identitygroups_access_token')
 
-    fetch(PG_ENDPOINT + '/family/' + this.props.family.uuid, {
+    fetch(IG_ENDPOINT + '/family/' + this.props.family.uuid, {
       method: 'get',
       headers: {
         'Authorization': 'Bearer ' + accessToken,
@@ -52,7 +52,7 @@ export class FamilyCard extends Component {
         })
       })
 
-    fetch(PG_ENDPOINT + '/family/' + this.props.family.uuid + '/users', {
+    fetch(IG_ENDPOINT + '/family/' + this.props.family.uuid + '/users', {
       method: 'get',
       headers: {
         'Authorization': 'Bearer ' + accessToken,

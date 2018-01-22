@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import { LinearProgress } from 'material-ui'
 
 import { FamilyCard } from './FamilyCard'
-import { ErrorDialog } from './ErrorDialog'
-import { PG_ENDPOINT } from '../Config';
-import { keepPrivateGroupsTokenActive } from '../lib/PrivateGroups';
+import { ErrorDialog } from '../../Layout/ErrorDialog'
+import { IG_ENDPOINT } from '../../Config';
+import { keepIdentityGroupsTokenActive } from '../IdentityGroupsAPI';
 import { GridList } from 'material-ui/GridList';
 
 
-export class Families extends Component {
+export class FamiliesContainer extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -20,14 +20,14 @@ export class Families extends Component {
     }
 
     componentWillMount() {
-        keepPrivateGroupsTokenActive()
+        keepIdentityGroupsTokenActive()
     }
 
     componentDidMount() {
-        const accessToken = localStorage.getItem('privategroups_access_token')
+        const accessToken = localStorage.getItem('identitygroups_access_token')
         const uuid = decode(accessToken).sub
 
-        fetch(PG_ENDPOINT + '/users/' + uuid + '/family', {
+        fetch(IG_ENDPOINT + '/users/' + uuid + '/family', {
             method: 'get',
             headers: {
                 'Authorization': 'Bearer ' + accessToken,

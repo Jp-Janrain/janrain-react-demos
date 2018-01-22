@@ -1,7 +1,7 @@
 import React from 'react';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton/FlatButton';
-import { login } from '../AuthService';
+import { login } from '../Auth/AuthService';
 
 const style = { color: "#fff" }
 

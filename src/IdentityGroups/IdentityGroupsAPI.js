@@ -1,7 +1,7 @@
 import formurlencoded from 'form-urlencoded';
 
-import { APP_DOMAIN, MIAA_AUTH_DOMAIN, CAPTURE_CLIENT_ID, PG_ACCESS_TOKEN } from "../Config";
-import { getAccessToken, nonce } from "../AuthService";
+import { APP_DOMAIN, MIAA_AUTH_DOMAIN, CAPTURE_CLIENT_ID, IG_ACCESS_TOKEN } from "../Config";
+import { getAccessToken, nonce } from "../Auth/AuthService";
 
 
 const audiencePath = MIAA_AUTH_DOMAIN + '/auth?' + formurlencoded({
@@ -14,7 +14,7 @@ const audiencePath = MIAA_AUTH_DOMAIN + '/auth?' + formurlencoded({
     nonce: nonce(12),
 })
 
-export const getPrivateGroupsToken = () => {
+export const getIdentityGroupsToken = () => {
     const accessToken = getAccessToken()
     fetch(audiencePath, {
         method: 'get',
@@ -26,14 +26,14 @@ export const getPrivateGroupsToken = () => {
         .then((res) => { console.log(res) })
 }
 
-export const keepPrivateGroupsTokenActive = () => {
-    // const pgAccessToken = window.localStorage.getItem('privategroups_access_token')
+export const keepIdentityGroupsTokenActive = () => {
+    // const pgAccessToken = window.localStorage.getItem('identitygroups_access_token')
     // if (!pgAccessToken | isTokenExpired(pgAccessToken)) {
-    if (!window.localStorage.getItem('privategroups_access_token')) {
-        //         const token = getPrivateGroupsToken()
+    if (!window.localStorage.getItem('identitygroups_access_token')) {
+        //         const token = getIdentityGroupsToken()
         //     console.log(token)
     }
-    localStorage.setItem('privategroups_access_token', PG_ACCESS_TOKEN)
+    localStorage.setItem('identitygroups_access_token', IG_ACCESS_TOKEN)
 }
 
 

@@ -5,7 +5,7 @@ import decode from 'jwt-decode';
 import { ProfileButton } from './ProfileButton';
 import { ProfileMenu } from './ProfileMenu';
 import { SignInButton } from './SignInButton';
-import { isLoggedIn, getIdToken, logout } from '../AuthService';
+import { isLoggedIn, getIdToken, logout } from '../Auth/AuthService';
 
 const getUserInfo = () => {
     const token = decode(getIdToken());

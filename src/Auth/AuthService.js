@@ -1,7 +1,7 @@
 
 import decode from 'jwt-decode';
 import formurlencoded from 'form-urlencoded';
-import { APP_DOMAIN, CAPTURE_CLIENT_ID, MIAA_AUTH_DOMAIN } from './Config';
+import { APP_DOMAIN, CAPTURE_CLIENT_ID, MIAA_AUTH_DOMAIN } from '../Config';
 
 export const ID_TOKEN_KEY = 'id_token';
 export const ACCESS_TOKEN_KEY = 'access_token';

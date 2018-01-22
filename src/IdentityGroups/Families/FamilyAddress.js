@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TextField, CircularProgress, FlatButton, Dialog } from 'material-ui'
-import { PG_ENDPOINT } from '../Config';
+import { IG_ENDPOINT } from '../../Config';
 
 export class FamilyAddresses extends Component {
     constructor() {
@@ -28,8 +28,8 @@ export class FamilyAddresses extends Component {
     handleRenameSubmit = () => {
         const familyName = document.getElementById('family_name_update').value
         const description = document.getElementById('family_description_update').value
-        const accessToken = window.localStorage.getItem('privategroups_access_token')
-        fetch(PG_ENDPOINT + '/family/' + this.props.familyDetails.uuid, {
+        const accessToken = window.localStorage.getItem('identitygroups_access_token')
+        fetch(IG_ENDPOINT + '/family/' + this.props.familyDetails.uuid, {
             method: 'patch',
             headers: {
                 'Authorization': 'Bearer ' + accessToken,
