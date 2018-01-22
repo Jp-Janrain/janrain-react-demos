@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { CircularProgress, TableRowColumn, Dialog, FlatButton, TextField } from 'material-ui';
-import { Table } from 'material-ui/Table';
-import TableBody from 'material-ui/Table/TableBody';
-import TableRow from 'material-ui/Table/TableRow';
+import { CircularProgress, Dialog, FlatButton, TextField } from 'material-ui';
+import { IdentityListItem } from '../Identities/IdentityListItem';
+import { List } from 'material-ui/List';
+import { isCurrentUser, currentUser } from '../../Auth/AuthService';
 
 export class FamilyMembers extends Component {
     constructor() {
@@ -31,7 +31,7 @@ export class FamilyMembers extends Component {
             const membersActions = []
             if (this.props.isHeadOf) {
                 membersActions.push(
-                    <FlatButton label="Invite Members" onClick={this.handleOpenInviteDialog} key='invite'/>)
+                    <FlatButton label="Invite Members" onClick={this.handleOpenInviteDialog} key='invite' />)
             }
 
             const inviteDialogActions = [
@@ -52,20 +52,20 @@ export class FamilyMembers extends Component {
             members.push(this.props.familyMembers.map((familyMember) => {
                 const user = familyMember.user
                 return (
-                    <TableRow key={user.uuid}>
-                        <TableRowColumn>{user.givenName + ' ' + user.familyName}</TableRowColumn>
-                        <TableRowColumn>{user.primaryAddress.mobile} </TableRowColumn>
-                    </TableRow>
+                    <IdentityListItem
+                    key={user.uuid}
+                    user={user}
+                    relations={familyMember.relations}
+                    // Below test would work if members list returned uuids
+                    canEdit={!isCurrentUser(user.uuid) && this.props.isHeadOf} />
                 )
             }))
 
             return (
                 <div>
-                    <Table selectable={false}>
-                        <TableBody displayRowCheckbox={false}>
-                            {members}
-                        </TableBody>
-                    </Table>
+                    <List>
+                        {members}
+                    </List>
                     <div align="center">{membersActions}</div>
                     <Dialog
                         title="Invite A Family Member"

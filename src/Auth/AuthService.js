@@ -6,6 +6,13 @@ import { APP_DOMAIN, CAPTURE_CLIENT_ID, MIAA_AUTH_DOMAIN } from '../Config';
 export const ID_TOKEN_KEY = 'id_token';
 export const ACCESS_TOKEN_KEY = 'access_token';
 
+export const currentUser = () => (
+  decode(getIdToken()).sub
+)
+
+export const isCurrentUser = (uuid) => (
+  decode(getIdToken()).sub === uuid
+)
 
 export function login() {
   const authPath = MIAA_AUTH_DOMAIN + '/auth?' + formurlencoded({

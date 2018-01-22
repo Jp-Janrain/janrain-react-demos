@@ -91,7 +91,7 @@ export class FamilyCard extends Component {
     }
     if (!this.state.editingEnabled) {
       actions.push(
-        <FlatButton label="Edit" onClick={this.handleEditAction} />,)
+        <FlatButton label="Edit" onClick={this.handleEditAction} />, )
     } else {
       actions.push(
         <FlatButton label='Save' primary={true} onClick={this.handleSaveAction} />,
@@ -101,9 +101,12 @@ export class FamilyCard extends Component {
     return (
       <Card>
         <CardTitle
+          showExpandableButton={true}
+          initiallyExpanded={false}
+          actAsExpander={true}
           title={family.familyName}
           subtitle={family.description} />
-        <CardText expandable={false}>
+        <CardText expandable={true}>
           <FamilyDetails key={family.uuid}
             familyDetails={this.state.familyDetails}
             familyMembers={this.state.familyMembers}
