@@ -109,7 +109,8 @@ export class FamilyCard extends Component {
             familyMembers={this.state.familyMembers}
             isLoadingDetails={this.state.isLoadingDetails}
             isLoadingMembers={this.state.isLoadingMembers}
-            canEdit={o => o.relationTypeCode === "IS_HEAD_OF"} />
+            isHeadOf={o => o.relationTypeCode === "IS_HEAD_OF"}
+            isMemberOf={o => o.relationTypeCode === "IS_MEMBER_OF"} />
         </CardText>
 
       </Card>

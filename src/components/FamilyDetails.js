@@ -13,7 +13,7 @@ export class FamilyDetails extends Component {
         this.state = {
             editingEnabled: false,
             renameDialogOpen: false,
-            inviteDialogOpen: false,
+
         }
     }
     handleEditAction = () => {
@@ -38,43 +38,33 @@ export class FamilyDetails extends Component {
         fetch(PG_ENDPOINT + '/family/' + this.props.familyDetails.uuid, {
             method: 'patch',
             headers: {
-              'Authorization': 'Bearer ' + accessToken,
-              'Content-type': 'application/json',
+                'Authorization': 'Bearer ' + accessToken,
+                'Content-type': 'application/json',
             },
             body: {
                 familyName: familyName,
                 description: description,
             }
-          })
+        })
             .then(res => {
-              if (!res.ok) { throw res }
-              return res.json()
+                if (!res.ok) { throw res }
+                return res.json()
             })
             .then(data => {
                 this.setState({ renameDialogOpen: false })
             })
             .catch(error => {
-              error.text().then(errorMessage => {
-                console.log("ERROR LOADING FAMILY DETAILS: " + errorMessage)
-              })
+                error.text().then(errorMessage => {
+                    console.log("ERROR LOADING FAMILY DETAILS: " + errorMessage)
+                })
             })
     }
-    handleOpenInviteDialog = () => {
-        this.setState({ inviteDialogOpen: true })
-    }
-    handleCloseInviteDialog = () => {
-        this.setState({ inviteDialogOpen: false })
-    }
-    handleInviteSubmit = () => {
-        this.setState({ inviteDialogOpen: false })
-    }
     render() {
-        const familyDetails = this.props.familyDetails
+        const props = this.props
+        const familyDetails = props.familyDetails
         const addressActions = []
-        const membersActions = []
-        if (this.props.canEdit) {
-            membersActions.push(
-                <FlatButton label="Invite Members" onClick={this.handleOpenInviteDialog} />)
+
+        if (this.props.isHeadOf) {
             if (!this.state.editingEnabled) {
                 addressActions.push(
                     <FlatButton label="Edit" onClick={this.handleEditAction} />,
@@ -102,18 +92,6 @@ export class FamilyDetails extends Component {
             addressTab.push(<div align="center">{addressActions}</div>)
         }
 
-        const membersTab = []
-        if (this.props.isLoadingMembers) {
-            membersTab.push(
-                <div key={familyDetails.uuid} align="center" >
-                    <CircularProgress size={50} thickness={7} />
-                </div>)
-        } else {
-            membersTab.push(<FamilyMembers
-                familyMembers={this.props.familyMembers} />)
-            membersTab.push(<div align="center">{membersActions}</div>)
-        }
-
         const renameDialogActions = [
             <FlatButton
                 label="Cancel"
@@ -128,19 +106,6 @@ export class FamilyDetails extends Component {
             />,
         ]
 
-        const inviteDialogActions = [
-            <FlatButton
-                label="Cancel"
-                secondary={true}
-                onClick={this.handleCloseInviteDialog}
-            />,
-            <FlatButton
-                label="Submit"
-                primary={true}
-                disabled={false}
-                onClick={this.handleInviteSubmit}
-            />,
-        ]
 
         return (
             <div>
@@ -148,7 +113,10 @@ export class FamilyDetails extends Component {
                     <Tab
                         icon={<FontIcon className="material-icons">people</FontIcon>}
                         label="Members">
-                        {membersTab}
+                        <FamilyMembers
+                            isLoading={props.isLoadingMembers}
+                            familyMembers={this.props.familyMembers}
+                            isHeadOf={props.isHeadOf} />
                     </Tab>
                     <Tab
                         icon={<FontIcon className="material-icons">phone</FontIcon>}
@@ -160,27 +128,6 @@ export class FamilyDetails extends Component {
                         label="Devices" >
                     </Tab>
                 </Tabs>
-                <Dialog
-                    title="Invite A Family Member"
-                    actions={inviteDialogActions}
-                    modal={true}
-                    open={this.state.inviteDialogOpen} >
-                    <TextField
-                        id="invitee_given_name"
-                        floatingLabelText="First Name"
-                        fullWidth={true}
-                    /> <br />
-                    <TextField
-                        id="invitee_family_name"
-                        floatingLabelText="Last Name"
-                        fullWidth={true}
-                    /> <br />
-                    <TextField
-                        id="invitee_email_address"
-                        floatingLabelText="Email Address"
-                        fullWidth={true}
-                    /> <br />
-                </Dialog>
                 <Dialog
                     title="Rename Family"
                     actions={renameDialogActions}
