@@ -1,7 +1,7 @@
 import formurlencoded from 'form-urlencoded';
 
 import { APP_DOMAIN, MIAA_AUTH_DOMAIN, CAPTURE_CLIENT_ID, IG_ACCESS_TOKEN, IG_BASEURL } from "../Config";
-import { getAccessToken, nonce } from "../Auth/AuthService";
+import { getAccessToken, nonce, isTokenExpired } from "../Auth/AuthService";
 
 
 const audiencePath = MIAA_AUTH_DOMAIN + '/auth?' + formurlencoded({
@@ -14,26 +14,15 @@ const audiencePath = MIAA_AUTH_DOMAIN + '/auth?' + formurlencoded({
     nonce: nonce(12),
 })
 
-export const getIdentityGroupsToken = () => {
-    const accessToken = getAccessToken()
-    fetch(audiencePath, {
-        method: 'get',
-        headers: {
-            'Authorization': 'Bearer ' + accessToken,
-        }
-    })
-        .then((res) => { console.log(res) })
-}
-
 export const callIdentityGroupAPI = (endpoint, requestObj, successFunction, errorFunction) => {
-    const accessToken = localStorage.getItem('identitygroups_access_token')
+    const accessToken = localStorage.getItem('privategroups_access_token')
     requestObj.headers = { 'Authorization': 'Bearer ' + accessToken }
 
     if (['post', 'patch', 'put'].includes(requestObj.method.toLowerCase())) {
         requestObj.headers['Content-type'] = 'application/json'
     }
 
-    console.info('PATH: '+ IG_BASEURL + endpoint + '\nINIT: ' + JSON.stringify(requestObj))
+    console.info('PATH: ' + IG_BASEURL + endpoint + '\nINIT: ' + JSON.stringify(requestObj))
 
     fetch(IG_BASEURL + endpoint, requestObj)
         .then(res => {
@@ -42,16 +31,17 @@ export const callIdentityGroupAPI = (endpoint, requestObj, successFunction, erro
         })
         .then((data) => successFunction(data))
         .catch(error => {
-            if (!error.text) {errorFunction(error.message)} else {
-            error.text().then((errorMessage) => errorFunction(errorMessage)) }})
+            if (!error.text) { errorFunction(error.message) } else {
+                error.text().then((errorMessage) => errorFunction(errorMessage))
+            }
+        })
 }
 
 export const keepIdentityGroupsTokenActive = () => {
-    // const pgAccessToken = window.localStorage.getItem('identitygroups_access_token')
-    // if (!pgAccessToken | isTokenExpired(pgAccessToken)) {
-    if (!window.localStorage.getItem('identitygroups_access_token')) {
-            //     const token = getIdentityGroupsToken()
-            // console.log(token)
+    const pgAccessToken = window.localStorage.getItem('privategroups_access_token')
+    if (!pgAccessToken | isTokenExpired(pgAccessToken)) {
+        //     Do a token refresh here
+        alert('token error to come')
     }
-    localStorage.setItem('identitygroups_access_token', IG_ACCESS_TOKEN)
 }
+

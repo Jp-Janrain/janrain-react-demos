@@ -55,7 +55,8 @@ export class App extends Component {
       <MuiThemeProvider>
         <Router>
           <div>
-            <Route path="/callback" component={Callback} />
+            <Route path="/auth/callback" component={Callback} />
+            <Route path="/auth/:audience/callback" component={Callback} />
             <AppBarHeader
               toggleDrawer={this.handleDrawerToggle}
               handleSignOut={this.handleSignOut} />

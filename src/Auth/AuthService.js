@@ -3,8 +3,8 @@ import decode from 'jwt-decode';
 import formurlencoded from 'form-urlencoded';
 import { APP_DOMAIN, CAPTURE_CLIENT_ID, MIAA_AUTH_DOMAIN } from '../Config';
 
-export const ID_TOKEN_KEY = 'id_token';
-export const ACCESS_TOKEN_KEY = 'access_token';
+export const ID_TOKEN_KEY = '_id_token';
+export const ACCESS_TOKEN_KEY = '_access_token';
 
 export const currentUserUUID = () => (
   decode(getIdToken()).sub
@@ -14,20 +14,36 @@ export const isCurrentUser = (uuid) => (
   decode(getIdToken()).sub === uuid
 )
 
-export function login() {
+export const getToken = (audience, scope) => {
   const authPath = MIAA_AUTH_DOMAIN + '/auth?' + formurlencoded({
     response_type: 'id_token token',
     client_id: CAPTURE_CLIENT_ID,
-    redirect_uri: APP_DOMAIN + '/callback',
+    redirect_uri: APP_DOMAIN + '/auth/' + audience + '/callback',
+    nonce: nonce(12),
+    audience: audience,
+    scope: scope,
+  })
+  window.location.replace(authPath)
+
+}
+
+export function login () {
+  const authPath = MIAA_AUTH_DOMAIN + '/auth?' + formurlencoded({
+    response_type: 'id_token token',
+    client_id: CAPTURE_CLIENT_ID,
+    redirect_uri: APP_DOMAIN + '/auth/callback',
     nonce: nonce(12),
     scope: 'openid profile manage_family read_family manage_companies read_companies',
   })
   window.location.replace(authPath)
 }
 
-export function logout() {
-  clearIdToken();
-  clearAccessToken();
+export function logout () {
+  window.localStorage.clear()
+  fetch(MIAA_AUTH_DOMAIN + '/session/end?'  + formurlencoded({
+    id_token_hint: getIdToken(),
+    post_logout_redirect_uri: APP_DOMAIN })
+  )
 }
 
 export function requireAuth(nextState, replace) {
@@ -42,14 +58,6 @@ export function getIdToken() {
 
 export function getAccessToken() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
-}
-
-function clearIdToken() {
-  localStorage.removeItem(ID_TOKEN_KEY);
-}
-
-function clearAccessToken() {
-  localStorage.removeItem(ACCESS_TOKEN_KEY);
 }
 
 export const nonce = (length) => {
@@ -92,15 +100,3 @@ export function isTokenExpired(token) {
   const expirationDate = getTokenExpirationDate(token);
   return expirationDate < new Date();
 }
-
-// Trying the client-oauth2 pattern https://www.npmjs.com/package/client-oauth2
-// const ClientOAuth2 = require('client-oauth2')
-
-// export const policyGateAuth = new ClientOAuth2({
-//   clientId: CAPTURE_CLIENT_ID,
-//   // clientSecret: '123',
-//   accessTokenUri: MIAA_AUTH_DOMAIN + '/token?',
-//   authorizationUri: MIAA_AUTH_DOMAIN + '/auth?',
-//   redirectUri: REDIRECT,
-//   scopes: ['openid', 'manage_family', 'read_family', 'manage_companies', 'read_companies']
-// })
