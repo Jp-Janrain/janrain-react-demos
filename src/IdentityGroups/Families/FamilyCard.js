@@ -6,6 +6,7 @@ import { IG_ENDPOINT } from '../../Config';
 import { keepIdentityGroupsTokenActive } from '../IdentityGroupsAPI';
 import { FamilyDetails } from './FamilyDetails';
 import CardTitle from 'material-ui/Card/CardTitle';
+import { getFamilyInfo, getFamilyMembers } from './FamiliesAPI';
 
 export class FamilyCard extends Component {
   constructor() {
@@ -13,7 +14,7 @@ export class FamilyCard extends Component {
     this.state = {
       isLoadingMembers: true,
       familyMembers: {},
-      isLoadingDetails: true,
+      isLoadingInfo: true,
       familyDetails: {},
     }
   }
@@ -22,81 +23,48 @@ export class FamilyCard extends Component {
     keepIdentityGroupsTokenActive()
   }
 
+  handleLoadInfoSuccess = (data) => {
+    this.setState({
+      isLoadingInfo: false,
+      familyDetails: data,
+    })
+  }
+
+  handleLoadInfoError = (errorMessage) => {
+    this.setState({
+      isLoadingInfo: false,
+      error: true,
+      errorMessage: errorMessage,
+    })
+    console.log("ERROR LOADING FAMILY INFO: " + errorMessage)
+  }
+
+  handleLoadMembersSuccess = (data) => {
+    this.setState({
+      isLoadingMembers: false,
+      familyMembers: data,
+    })
+  }
+
+  handleLoadMembersError = (errorMessage) => {
+    this.setState({
+      isLoadingMembers: false,
+      error: true,
+      errorMessage: errorMessage,
+    })
+    console.log("ERROR LOADING FAMILY MEMBERS: " + errorMessage)
+  }
+
   componentDidMount() {
     const accessToken = localStorage.getItem('identitygroups_access_token')
-
-    fetch(IG_ENDPOINT + '/family/' + this.props.family.uuid, {
-      method: 'get',
-      headers: {
-        'Authorization': 'Bearer ' + accessToken,
-      }
-    })
-      .then(res => {
-        if (!res.ok) { throw res }
-        return res.json()
-      })
-      .then(data => {
-        this.setState({
-          isLoadingDetails: false,
-          familyDetails: data,
-        })
-      })
-      .catch(error => {
-        error.text().then(errorMessage => {
-          this.setState({
-            isLoadingDetails: false,
-            error: true,
-            errorMessage: errorMessage,
-          })
-          console.log("ERROR LOADING FAMILY DETAILS: " + errorMessage)
-        })
-      })
-
-    fetch(IG_ENDPOINT + '/family/' + this.props.family.uuid + '/users', {
-      method: 'get',
-      headers: {
-        'Authorization': 'Bearer ' + accessToken,
-      }
-    })
-      .then(res => {
-        if (!res.ok) { throw res }
-        return res.json()
-      })
-      .then(data => {
-        this.setState({
-          isLoadingMembers: false,
-          familyMembers: data,
-        })
-      })
-      .catch(error => {
-        error.text().then(errorMessage => {
-          this.setState({
-            isLoadingMembers: false,
-            error: true,
-            errorMessage: errorMessage,
-          })
-          console.log("ERROR LOADING FAMILY MEMBERS: " + errorMessage)
-        })
-      })
+    const familyUUID = this.props.family.uuid
+    getFamilyInfo(familyUUID, this.handleLoadInfoSuccess, this.handleLoadInfoError)
+    getFamilyMembers(familyUUID, this.handleLoadMembersSuccess, this.handleLoadMembersError)
   }
 
   render() {
     const family = this.props.family
     const relations = this.props.relations
-
-    // Determine actions users can take on the family
-    const actions = []
-    if (relations.find(o => o.relationTypeCode === "IS_HEAD_OF")) {
-      actions.push(<FlatButton label="Invite Members" />)
-    }
-    if (!this.state.editingEnabled) {
-      actions.push(
-        <FlatButton label="Edit" onClick={this.handleEditAction} />, )
-    } else {
-      actions.push(
-        <FlatButton label='Save' primary={true} onClick={this.handleSaveAction} />,
-        <FlatButton label='Cancel' secondary={true} onClick={this.handleCancelAction} />)
-    }
 
     return (
       <Card>
@@ -110,7 +78,7 @@ export class FamilyCard extends Component {
           <FamilyDetails key={family.uuid}
             familyDetails={this.state.familyDetails}
             familyMembers={this.state.familyMembers}
-            isLoadingDetails={this.state.isLoadingDetails}
+            isLoading={this.state.isLoadingInfo}
             isLoadingMembers={this.state.isLoadingMembers}
             isHeadOf={o => o.relationTypeCode === "IS_HEAD_OF"}
             isMemberOf={o => o.relationTypeCode === "IS_MEMBER_OF"} />

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TextField, CircularProgress, FlatButton, Dialog } from 'material-ui'
 import { IG_ENDPOINT } from '../../Config';
+import { updateFamilyInfo } from './FamiliesAPI';
 
 export class FamilyAddresses extends Component {
     constructor() {
@@ -25,33 +26,21 @@ export class FamilyAddresses extends Component {
     handleCloseRenameDialog = () => {
         this.setState({ renameDialogOpen: false })
     }
+    handleUpdateFamilyInfoSuccess = (data) => {
+        this.setState({ renameDialogOpen: false })
+    }
+    handleUpdateFamilyInfoError = (errorMessage) => {
+        console.log("ERROR LOADING FAMILY DETAILS: " + errorMessage)
+    }
     handleRenameSubmit = () => {
         const familyName = document.getElementById('family_name_update').value
         const description = document.getElementById('family_description_update').value
         const accessToken = window.localStorage.getItem('identitygroups_access_token')
-        fetch(IG_ENDPOINT + '/family/' + this.props.familyDetails.uuid, {
-            method: 'patch',
-            headers: {
-                'Authorization': 'Bearer ' + accessToken,
-                'Content-type': 'application/json',
-            },
-            body: {
-                familyName: familyName,
-                description: description,
-            }
-        })
-            .then(res => {
-                if (!res.ok) { throw res }
-                return res.json()
-            })
-            .then(data => {
-                this.setState({ renameDialogOpen: false })
-            })
-            .catch(error => {
-                error.text().then(errorMessage => {
-                    console.log("ERROR LOADING FAMILY DETAILS: " + errorMessage)
-                })
-            })
+        updateFamilyInfo(
+            this.props.familyDetails.uuid,
+            {familyName: familyName, description: description},
+            this.handleUpdateFamilyInfoSuccess, this.handleUpdateFamilyInfoError
+        )
     }
     render() {
         const props = this.props
@@ -98,42 +87,42 @@ export class FamilyAddresses extends Component {
                         id="family_address_address1"
                         floatingLabelText="Address 1"
                         defaultValue={address.address1 ? address.address1 : null}
-                        disabled={!props.editingEnabled}
+                        disabled={!this.state.editingEnabled}
                         fullWidth={true}
                     /> <br />
                     <TextField
                         id="family_address_address2"
                         floatingLabelText="Address 2"
                         defaultValue={address.address2 ? address.address2 : null}
-                        disabled={!props.editingEnabled}
+                        disabled={!this.state.editingEnabled}
                         fullWidth={true}
                     /> <br />
                     <TextField
                         id="family_address_city"
                         floatingLabelText="City"
                         defaultValue={address.city ? address.city : null}
-                        disabled={!props.editingEnabled}
+                        disabled={!this.state.editingEnabled}
                         fullWidth={true}
                     /> <br />
                     <TextField
                         id="family_address_country"
                         floatingLabelText="Country"
                         defaultValue={address.country ? address.country : null}
-                        disabled={!props.editingEnabled}
+                        disabled={!this.state.editingEnabled}
                         fullWidth={true}
                     /> <br />
                     <TextField
                         id="family_address_zip"
                         floatingLabelText="Zip"
                         defaultValue={address.zip ? address.zip : null}
-                        disabled={!props.editingEnabled}
+                        disabled={!this.state.editingEnabled}
                         fullWidth={true}
                     /> <br />
                     <TextField
                         id="family_address_phone"
                         floatingLabelText="Phone"
                         defaultValue={address.phone ? address.phone : null}
-                        disabled={!props.editingEnabled}
+                        disabled={!this.state.editingEnabled}
                         fullWidth={true}
                     /> <br />
                     <TextField
@@ -141,7 +130,7 @@ export class FamilyAddresses extends Component {
                         id="family_address_email"
                         floatingLabelText="Email"
                         defaultValue={address.email ? address.email : null}
-                        disabled={!props.editingEnabled}
+                        disabled={!this.state.editingEnabled}
                     /> <br />
                     <div align="center">{addressActions}</div>
                     <Dialog

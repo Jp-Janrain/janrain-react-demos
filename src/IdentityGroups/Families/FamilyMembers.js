@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { CircularProgress, Dialog, FlatButton, TextField } from 'material-ui';
 import { IdentityListItem } from '../Identities/IdentityListItem';
 import { List } from 'material-ui/List';
-import { isCurrentUser, currentUser } from '../../Auth/AuthService';
+import { isCurrentUser } from '../../Auth/AuthService';
 
 export class FamilyMembers extends Component {
     constructor() {

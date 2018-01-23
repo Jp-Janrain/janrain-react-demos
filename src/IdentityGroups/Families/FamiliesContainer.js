@@ -1,12 +1,12 @@
-import decode from 'jwt-decode';
 import React, { Component } from 'react';
 import { LinearProgress } from 'material-ui'
 
 import { FamilyCard } from './FamilyCard'
 import { ErrorDialog } from '../../Layout/ErrorDialog'
-import { IG_ENDPOINT } from '../../Config';
 import { keepIdentityGroupsTokenActive } from '../IdentityGroupsAPI';
 import { GridList } from 'material-ui/GridList';
+import { currentUserUUID } from '../../Auth/AuthService';
+import { getUsersFamilies } from './FamiliesAPI';
 
 
 export class FamiliesContainer extends Component {
@@ -23,48 +23,35 @@ export class FamiliesContainer extends Component {
         keepIdentityGroupsTokenActive()
     }
 
-    componentDidMount() {
-        const accessToken = localStorage.getItem('identitygroups_access_token')
-        const uuid = decode(accessToken).sub
-
-        fetch(IG_ENDPOINT + '/users/' + uuid + '/family', {
-            method: 'get',
-            headers: {
-                'Authorization': 'Bearer ' + accessToken,
-            }
+    handleLoadFamiliesSuccess = (data) => {
+        this.setState({
+            isLoading: false,
+            families: data,
         })
-            .then(res => {
-                if (!res.ok) { throw res }
-                return res.json()
-            })
-            .then(data => {
-                this.setState({
-                    isLoading: false,
-                    families: data,
-                })
-            })
-            .catch(error => {
-                error.text().then(errorMessage => {
-                    this.setState({
-                        isLoading: false,
-                        error: true,
-                        errorMessage: errorMessage,
-                    })
-                })
-            })
+    }
+
+    handleLoadFamiliesError = (errorMessage) => {
+        this.setState({
+            isLoading: false,
+            error: true,
+            errorMessage: errorMessage,
+        })}
+
+    componentDidMount() {
+        getUsersFamilies(currentUserUUID(), this.handleLoadFamiliesSuccess, this.handleLoadFamiliesError)
     }
 
     render() {
         if (this.state.isLoading) {
-            return (
-                <LinearProgress />
-            )
+            return (<LinearProgress />)
+
         } else if (this.state.error) {
             return (
                 <ErrorDialog
                     title='Error'
                     text={this.state.errorMessage} />
             )
+
         } else {
             const cards = []
             cards.push(this.state.families.map(function (familyObject) {

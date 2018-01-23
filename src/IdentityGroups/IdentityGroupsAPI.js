@@ -1,6 +1,6 @@
 import formurlencoded from 'form-urlencoded';
 
-import { APP_DOMAIN, MIAA_AUTH_DOMAIN, CAPTURE_CLIENT_ID, IG_ACCESS_TOKEN } from "../Config";
+import { APP_DOMAIN, MIAA_AUTH_DOMAIN, CAPTURE_CLIENT_ID, IG_ACCESS_TOKEN, IG_BASEURL } from "../Config";
 import { getAccessToken, nonce } from "../Auth/AuthService";
 
 
@@ -26,6 +26,23 @@ export const getIdentityGroupsToken = () => {
         .then((res) => { console.log(res) })
 }
 
+export const callIdentityGroupAPI = (endpoint, requestObj, successFunction, errorFunction) => {
+    const accessToken = localStorage.getItem('identitygroups_access_token')
+    requestObj.headers = { 'Authorization': 'Bearer ' + accessToken }
+
+    if (['post', 'patch', 'put'].includes(requestObj.method.toLowerCase())) {
+        requestObj.headers['Content-type'] = 'application/json'
+    }
+
+    fetch(IG_BASEURL + endpoint, requestObj)
+        .then(res => {
+            if (!res.ok) { throw res }
+            return res.json()
+        })
+        .then((data) => successFunction(data))
+        .catch(error => { error.text().then((errorMessage) => errorFunction(errorMessage)) })
+}
+
 export const keepIdentityGroupsTokenActive = () => {
     // const pgAccessToken = window.localStorage.getItem('identitygroups_access_token')
     // if (!pgAccessToken | isTokenExpired(pgAccessToken)) {
@@ -35,39 +52,3 @@ export const keepIdentityGroupsTokenActive = () => {
     }
     localStorage.setItem('identitygroups_access_token', IG_ACCESS_TOKEN)
 }
-
-
-export const FAMILY_CREATE = {
-    "carnet": {
-        "familyName": "Rowan",
-        "description": "An awesome family named Rowan"
-    }
-}
-
-export const FAMILY_INVITE = {
-    "user": {
-        "email": "jp@jprowan.com"
-    },
-    "relationTypeCodes": [
-        "IS_MEMBER_OF"
-    ]
-}
-
-export const FAMILY_MEMBERS = [
-    {
-        "user": {
-            "givenName": "Jim",
-            "familyName": "Example",
-            "title": null,
-            "primaryAddress": {
-                "mobile": null
-            }
-        },
-        "relations": [
-            {
-                "status": "active",
-                "code": "IS_HEAD_OF"
-            }
-        ]
-    }
-]
