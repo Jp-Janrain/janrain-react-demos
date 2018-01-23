@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { CircularProgress, Dialog, FlatButton, TextField } from 'material-ui';
+import { CircularProgress, Dialog, FlatButton, TextField, Checkbox } from 'material-ui';
 import { IdentityListItem } from '../Identities/IdentityListItem';
 import { List } from 'material-ui/List';
 import { isCurrentUser } from '../../Auth/AuthService';
+import { InviteDialog } from './InviteDialog';
+import { inviteFamilyMember } from './FamiliesAPI';
 
 export class FamilyMembers extends Component {
     constructor() {
@@ -11,14 +13,36 @@ export class FamilyMembers extends Component {
             inviteDialogOpen: false,
         }
     }
-    handleOpenInviteDialog = () => {
+    openInviteDialog = () => {
         this.setState({ inviteDialogOpen: true })
     }
-    handleCloseInviteDialog = () => {
+    closeInviteDialog = () => {
         this.setState({ inviteDialogOpen: false })
     }
-    handleInviteSubmit = () => {
+    handleInviteSuccess = (data) => {
         this.setState({ inviteDialogOpen: false })
+    }
+    handleInviteError = (errorMessage) => {
+        console.log("ERROR INVITING USER: " + errorMessage)
+    }
+    handleInviteSubmit = () => {
+
+        inviteFamilyMember(
+            this.props.familyUUID,
+            {
+                "user": {
+                    "email": document.getElementById('invitee_email_address').value,
+                    "givenName": document.getElementById('invitee_given_name').value,
+                    "familyName": document.getElementById('invitee_family_name').value,
+                },
+                "relationTypeCodes": [
+                    document.getElementById('invitee_access_member').value === 'on' ? "IS_MEMBER_OF" : null,
+                    document.getElementById('invitee_access_admin').value === 'on' ? "IS_MEMBER_OF" : null,
+                ]
+            },
+            this.handleInviteSuccess,
+            this.handleInviteError
+        )
     }
     render() {
 
@@ -28,36 +52,24 @@ export class FamilyMembers extends Component {
                     <CircularProgress size={50} thickness={7} />
                 </div>)
         } else {
+
             const membersActions = []
             if (this.props.isHeadOf) {
                 membersActions.push(
-                    <FlatButton label="Invite Members" onClick={this.handleOpenInviteDialog} key='invite' />)
+                    <FlatButton label="Invite Members" onClick={this.openInviteDialog} key='invite' />)
             }
 
-            const inviteDialogActions = [
-                <FlatButton
-                    label="Cancel"
-                    secondary={true}
-                    onClick={this.handleCloseInviteDialog}
-                />,
-                <FlatButton
-                    label="Submit"
-                    primary={true}
-                    disabled={false}
-                    onClick={this.handleInviteSubmit}
-                />,
-            ]
 
             const members = []
             members.push(this.props.familyMembers.map((familyMember) => {
                 const user = familyMember.user
                 return (
                     <IdentityListItem
-                    key={user.uuid}
-                    user={user}
-                    relations={familyMember.relations}
-                    // Below test would work if members list returned uuids
-                    canEdit={!isCurrentUser(user.uuid) && this.props.isHeadOf} />
+                        key={user.uuid}
+                        user={user}
+                        relations={familyMember.relations}
+                        // Below test would work if members list returned uuids
+                        canEdit={!isCurrentUser(user.uuid) && this.props.isHeadOf} />
                 )
             }))
 
@@ -67,27 +79,10 @@ export class FamilyMembers extends Component {
                         {members}
                     </List>
                     <div align="center">{membersActions}</div>
-                    <Dialog
-                        title="Invite A Family Member"
-                        actions={inviteDialogActions}
-                        modal={true}
-                        open={this.state.inviteDialogOpen} >
-                        <TextField
-                            id="invitee_given_name"
-                            floatingLabelText="First Name"
-                            fullWidth={true}
-                        /> <br />
-                        <TextField
-                            id="invitee_family_name"
-                            floatingLabelText="Last Name"
-                            fullWidth={true}
-                        /> <br />
-                        <TextField
-                            id="invitee_email_address"
-                            floatingLabelText="Email Address"
-                            fullWidth={true}
-                        /> <br />
-                    </Dialog>
+                    <InviteDialog
+                        isOpen={this.state.inviteDialogOpen}
+                        submitAction={this.handleInviteSubmit}
+                        closeAction={this.closeInviteDialog} />
                 </div>
             )
         }

@@ -18,7 +18,6 @@ export const getIdentityGroupsToken = () => {
     const accessToken = getAccessToken()
     fetch(audiencePath, {
         method: 'get',
-        mode: 'no-cors',
         headers: {
             'Authorization': 'Bearer ' + accessToken,
         }
@@ -34,21 +33,25 @@ export const callIdentityGroupAPI = (endpoint, requestObj, successFunction, erro
         requestObj.headers['Content-type'] = 'application/json'
     }
 
+    console.info('PATH: '+ IG_BASEURL + endpoint + '\nINIT: ' + JSON.stringify(requestObj))
+
     fetch(IG_BASEURL + endpoint, requestObj)
         .then(res => {
             if (!res.ok) { throw res }
             return res.json()
         })
         .then((data) => successFunction(data))
-        .catch(error => { error.text().then((errorMessage) => errorFunction(errorMessage)) })
+        .catch(error => {
+            if (!error.text) {errorFunction(error.message)} else {
+            error.text().then((errorMessage) => errorFunction(errorMessage)) }})
 }
 
 export const keepIdentityGroupsTokenActive = () => {
     // const pgAccessToken = window.localStorage.getItem('identitygroups_access_token')
     // if (!pgAccessToken | isTokenExpired(pgAccessToken)) {
     if (!window.localStorage.getItem('identitygroups_access_token')) {
-        //         const token = getIdentityGroupsToken()
-        //     console.log(token)
+            //     const token = getIdentityGroupsToken()
+            // console.log(token)
     }
     localStorage.setItem('identitygroups_access_token', IG_ACCESS_TOKEN)
 }

@@ -16,7 +16,12 @@ export const getFamilyMembers = (familyUUID, successFunction, errorFunction) => 
     callIdentityGroupAPI(endpoint, {method: 'get'}, successFunction, errorFunction)
 }
 
+export const inviteFamilyMember = (familyUUID, body, successFunction, errorFunction) => {
+    const endpoint = '/family/' + familyUUID + '/users'
+    callIdentityGroupAPI(endpoint, {body: JSON.stringify(body), method: 'post'}, successFunction, errorFunction)
+}
+
 export const updateFamilyInfo = (familyUUID, body, successFunction, errorFunction) => {
     const endpoint = '/family/' + familyUUID
-    callIdentityGroupAPI(endpoint, {body: body, method: 'patch'}, successFunction, errorFunction)
+    callIdentityGroupAPI(endpoint, {body: JSON.stringify(body), method: 'patch'}, successFunction, errorFunction)
 }

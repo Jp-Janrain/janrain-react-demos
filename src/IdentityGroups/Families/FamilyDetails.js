@@ -14,7 +14,8 @@ export const FamilyDetails = (props) => (
                 <FamilyMembers
                     isLoading={props.isLoadingMembers}
                     familyMembers={props.familyMembers}
-                    isHeadOf={props.isHeadOf} />
+                    isHeadOf={props.isHeadOf}
+                    familyUUID={props.familyDetails.uuid} />
             </Tab>
             <Tab
                 icon={<FontIcon className="material-icons">phone</FontIcon>}
