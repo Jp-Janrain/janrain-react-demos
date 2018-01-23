@@ -1,7 +1,7 @@
 import React from 'react'
 import Redirect from 'react-router-dom/Redirect';
 
-import { setAuthParam, ID_TOKEN_KEY, ACCESS_TOKEN_KEY, login, getToken } from './AuthService';
+import { setAuthParam, getToken } from './AuthService';
 
 export const Callback = (props) => {
     const audience = props.match.params.audience ? props.match.params.audience : null

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CircularProgress, Dialog, FlatButton, TextField, Checkbox } from 'material-ui';
+import { CircularProgress, FlatButton } from 'material-ui';
 import { IdentityListItem } from '../Identities/IdentityListItem';
 import { List } from 'material-ui/List';
 import { isCurrentUser } from '../../Auth/AuthService';

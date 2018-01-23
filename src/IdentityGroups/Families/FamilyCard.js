@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Card, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
 
-import { IG_ENDPOINT } from '../../Config';
 import { keepIdentityGroupsTokenActive } from '../IdentityGroupsAPI';
-import { FamilyDetails } from './FamilyDetails';
+import { FamilyContent } from './FamilyContent';
 import CardTitle from 'material-ui/Card/CardTitle';
 import { getFamilyInfo, getFamilyMembers } from './FamiliesAPI';
 
@@ -56,7 +54,6 @@ export class FamilyCard extends Component {
   }
 
   componentDidMount() {
-    const accessToken = localStorage.getItem('identitygroups_access_token')
     const familyUUID = this.props.family.uuid
     getFamilyInfo(familyUUID, this.handleLoadInfoSuccess, this.handleLoadInfoError)
     getFamilyMembers(familyUUID, this.handleLoadMembersSuccess, this.handleLoadMembersError)
@@ -64,18 +61,16 @@ export class FamilyCard extends Component {
 
   render() {
     const family = this.props.family
-    const relations = this.props.relations
 
     return (
       <Card>
         <CardTitle
           showExpandableButton={true}
-          initiallyExpanded={false}
           actAsExpander={true}
           title={family.familyName}
           subtitle={family.description} />
         <CardText expandable={true}>
-          <FamilyDetails key={family.uuid}
+          <FamilyContent key={family.uuid}
             familyDetails={this.state.familyDetails}
             familyMembers={this.state.familyMembers}
             isLoading={this.state.isLoadingInfo}

@@ -15,7 +15,7 @@ export class FamiliesContainer extends Component {
         this.state = {
             error: false,
             isLoading: true,
-            families: null,
+            families: [],
         }
     }
 

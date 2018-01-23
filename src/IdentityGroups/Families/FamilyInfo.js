@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { TextField, CircularProgress, FlatButton, Dialog } from 'material-ui'
-import { IG_ENDPOINT } from '../../Config';
 import { updateFamilyInfo } from './FamiliesAPI';
 
-export class FamilyAddresses extends Component {
+export class FamilyInfo extends Component {
     constructor() {
         super()
         this.state = {
@@ -35,7 +34,6 @@ export class FamilyAddresses extends Component {
     handleRenameSubmit = () => {
         const familyName = document.getElementById('family_name_update').value
         const description = document.getElementById('family_description_update').value
-        const accessToken = window.localStorage.getItem('identitygroups_access_token')
         updateFamilyInfo(
             this.props.familyDetails.uuid,
             {familyName: familyName, description: description},

@@ -1,18 +1,6 @@
-import formurlencoded from 'form-urlencoded';
+import { IG_BASEURL } from "../Config";
+import { isTokenExpired } from "../Auth/AuthService";
 
-import { APP_DOMAIN, MIAA_AUTH_DOMAIN, CAPTURE_CLIENT_ID, IG_ACCESS_TOKEN, IG_BASEURL } from "../Config";
-import { getAccessToken, nonce, isTokenExpired } from "../Auth/AuthService";
-
-
-const audiencePath = MIAA_AUTH_DOMAIN + '/auth?' + formurlencoded({
-    audience: 'privategroups',
-    scope: 'openid manage_family read_family manage_companies read_companies',
-    prompt: 'none',
-    client_id: CAPTURE_CLIENT_ID,
-    response_type: 'id_token token',
-    redirect_uri: APP_DOMAIN + '/callback',
-    nonce: nonce(12),
-})
 
 export const callIdentityGroupAPI = (endpoint, requestObj, successFunction, errorFunction) => {
     const accessToken = localStorage.getItem('privategroups_access_token')
