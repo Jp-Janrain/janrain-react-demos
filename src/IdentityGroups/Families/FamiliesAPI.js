@@ -23,5 +23,5 @@ export const inviteFamilyMember = (familyUUID, body, successFunction, errorFunct
 
 export const updateFamilyInfo = (familyUUID, body, successFunction, errorFunction) => {
     const endpoint = '/family/' + familyUUID
-    callIdentityGroupAPI(endpoint, {body: JSON.stringify(body), method: 'patch'}, successFunction, errorFunction)
+    callIdentityGroupAPI(endpoint, {body: JSON.stringify(body), method: 'PATCH'}, successFunction, errorFunction)
 }

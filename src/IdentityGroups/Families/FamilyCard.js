@@ -13,7 +13,7 @@ export class FamilyCard extends Component {
       isLoadingMembers: true,
       familyMembers: {},
       isLoadingInfo: true,
-      familyDetails: {},
+      familyInfo: {},
     }
   }
 
@@ -24,7 +24,7 @@ export class FamilyCard extends Component {
   handleLoadInfoSuccess = (data) => {
     this.setState({
       isLoadingInfo: false,
-      familyDetails: data,
+      familyInfo: data
     })
   }
 
@@ -35,6 +35,10 @@ export class FamilyCard extends Component {
       errorMessage: errorMessage,
     })
     console.log("ERROR LOADING FAMILY INFO: " + errorMessage)
+  }
+
+  handleUpdateInfo = (response) => {
+    this.setState({ familyInfo: response })
   }
 
   handleLoadMembersSuccess = (data) => {
@@ -71,12 +75,14 @@ export class FamilyCard extends Component {
           subtitle={family.description} />
         <CardText expandable={true}>
           <FamilyContent key={family.uuid}
-            familyDetails={this.state.familyDetails}
+            familyInfo={this.state.familyInfo}
             familyMembers={this.state.familyMembers}
-            isLoading={this.state.isLoadingInfo}
+            isLoadingInfo={this.state.isLoadingInfo}
             isLoadingMembers={this.state.isLoadingMembers}
             isHeadOf={o => o.relationTypeCode === "IS_HEAD_OF"}
-            isMemberOf={o => o.relationTypeCode === "IS_MEMBER_OF"} />
+            isMemberOf={o => o.relationTypeCode === "IS_MEMBER_OF"}
+            handleUpdateInfo={this.handleUpdateInfo}
+            handleFamilyRename={this.props.handleFamilyRename} />
         </CardText>
 
       </Card>

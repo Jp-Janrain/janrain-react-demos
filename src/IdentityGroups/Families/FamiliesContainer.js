@@ -35,7 +35,15 @@ export class FamiliesContainer extends Component {
             isLoading: false,
             error: true,
             errorMessage: errorMessage,
-        })}
+        })
+    }
+
+    handleFamilyRename = (familyObj) => {
+        const families = this.state.families
+        const foundIndex = families.findIndex(x => x.family.uuid == familyObj.uuid)
+        families[foundIndex].family = familyObj
+        this.setState({families: families})
+    }
 
     componentDidMount() {
         getUsersFamilies(currentUserUUID(), this.handleLoadFamiliesSuccess, this.handleLoadFamiliesError)
@@ -54,15 +62,16 @@ export class FamiliesContainer extends Component {
 
         } else {
             const cards = []
-            cards.push(this.state.families.map(function (familyObject) {
+            cards.push(this.state.families.map( (familyObject) => {
                 return (
                     <FamilyCard
                         key={familyObject.family.uuid}
                         family={familyObject.family}
                         relations={familyObject.relations}
+                        handleFamilyRename={this.handleFamilyRename}
                     />
                 )
-            }))
+            }, this))
             return (
                 <GridList padding={10} cellHeight='auto' cols={1} style={{ maxWidth: '1100px' }}>
                     {cards}

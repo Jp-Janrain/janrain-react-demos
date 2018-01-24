@@ -15,16 +15,18 @@ export const FamilyContent = (props) => (
                     isLoading={props.isLoadingMembers}
                     familyMembers={props.familyMembers}
                     isHeadOf={props.isHeadOf}
-                    familyUUID={props.familyDetails.uuid} />
+                    familyUUID={props.familyInfo.uuid} />
             </Tab>
             <Tab
                 icon={<FontIcon className="material-icons">phone</FontIcon>}
                 label="Contact Info" >
                 <FamilyInfo
-                    isLoading={props.isLoadingDetails}
-                    familyDetails={props.familyDetails}
+                    isLoading={props.isLoadingInfo}
+                    familyDetails={props.familyInfo}
                     isHeadOf={props.isHeadOf}
-                    isMemberOf={props.isMemberOf} />
+                    isMemberOf={props.isMemberOf}
+                    handleUpdateInfo={props.handleUpdateInfo}
+                    handleFamilyRename={props.handleFamilyRename} />
             </Tab>
             <Tab
                 icon={<FontIcon className="material-icons">devices_other</FontIcon>}

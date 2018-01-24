@@ -61,11 +61,11 @@ export class FamilyMembers extends Component {
 
 
             const members = []
-            members.push(this.props.familyMembers.map((familyMember) => {
+            members.push(this.props.familyMembers.map((familyMember, i) => {
                 const user = familyMember.user
                 return (
                     <IdentityListItem
-                        key={user.uuid}
+                        key={i}
                         user={user}
                         relations={familyMember.relations}
                         // Below test would work if members list returned uuids

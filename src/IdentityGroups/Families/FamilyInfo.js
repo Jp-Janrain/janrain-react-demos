@@ -26,6 +26,8 @@ export class FamilyInfo extends Component {
         this.setState({ renameDialogOpen: false })
     }
     handleUpdateFamilyInfoSuccess = (data) => {
+        this.props.handleFamilyRename(data)
+        this.props.handleUpdateInfo(data)
         this.setState({ renameDialogOpen: false })
     }
     handleUpdateFamilyInfoError = (errorMessage) => {
