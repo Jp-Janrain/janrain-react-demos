@@ -22,7 +22,7 @@ export const FamilyContent = (props) => (
                 label="Contact Info" >
                 <FamilyInfo
                     isLoading={props.isLoadingInfo}
-                    familyDetails={props.familyInfo}
+                    familyInfo={props.familyInfo}
                     isHeadOf={props.isHeadOf}
                     isMemberOf={props.isMemberOf}
                     handleUpdateInfo={props.handleUpdateInfo}

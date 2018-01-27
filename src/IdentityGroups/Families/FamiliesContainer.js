@@ -40,7 +40,7 @@ export class FamiliesContainer extends Component {
 
     handleFamilyRename = (familyObj) => {
         const families = this.state.families
-        const foundIndex = families.findIndex(x => x.family.uuid == familyObj.uuid)
+        const foundIndex = families.findIndex(x => x.family.uuid === familyObj.uuid)
         families[foundIndex].family = familyObj
         this.setState({families: families})
     }

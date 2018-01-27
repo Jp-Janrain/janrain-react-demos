@@ -10,7 +10,7 @@ export const callIdentityGroupAPI = (endpoint, requestObj, successFunction, erro
         requestObj.headers['Content-type'] = 'application/json'
     }
 
-    console.info('PATH: ' + IG_BASEURL + endpoint + '\nINIT: ' + JSON.stringify(requestObj))
+    // console.info('PATH: ' + IG_BASEURL + endpoint + '\nINIT: ' + JSON.stringify(requestObj))
 
     fetch(IG_BASEURL + endpoint, requestObj)
         .then(res => {
@@ -33,3 +33,34 @@ export const keepIdentityGroupsTokenActive = () => {
     }
 }
 
+export const flattenNestedKeys = (obj, parent) => {
+    const newObj = {}
+    Object.entries(obj).map(([key, item]) => {
+        if ((typeof item === 'object') && item !== null) {
+            Object.assign(newObj, flattenNestedKeys(item, key))
+        } else {
+            if (parent) {
+                newObj[parent + '.' + key] = item
+            } else {
+                newObj[key] = item
+            }
+        }
+        return null
+    })
+    return newObj
+}
+
+export const expandFlatKeys = (obj, parent) => {
+    const newObj = {}
+    Object.entries(obj).map(([key, item]) => {
+        const splitKey = key.split('.')
+        if (splitKey.length === 2) {
+            if (!newObj[splitKey[0]]) {newObj[splitKey[0]] = {}}
+            newObj[splitKey[0]][splitKey[1]] = item
+        } else {
+            newObj[key] = item
+        }
+        return null
+    })
+    return newObj
+}
