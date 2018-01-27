@@ -8,7 +8,7 @@ export const ProfileButton = (props) => {
     return (
         <FlatButton
             label={props.displayName}
-            icon={<FontIcon className="material-icons" >perm_identity</FontIcon>}
+            icon={<FontIcon className="material-icons" >{props.notifications? 'notifications' : 'perm_identity'}</FontIcon>}
             onClick={props.onClick}
             style={style} />
     );

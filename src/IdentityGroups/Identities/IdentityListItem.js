@@ -26,7 +26,7 @@ export const IdentityListItem = (props) => {
     return (
         <ListItem key={props.user.uuid}
             disabled={true}
-            leftAvatar={<Avatar>{props.user.givenName.charAt(0)}</Avatar>}
+            leftAvatar={props.user.givenName ? <Avatar>{props.user.givenName.charAt(0)}</Avatar> : null}
             primaryText={props.user.givenName + ' ' + props.user.familyName}
             secondaryText={props.relations.map(({ code }) => realationshipTypes[code])}
             rightIconButton={props.canEdit ? rightIconMenu : null} >

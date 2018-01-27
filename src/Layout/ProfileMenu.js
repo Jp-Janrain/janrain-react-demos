@@ -3,6 +3,7 @@ import Popover from 'material-ui/Popover/Popover';
 import Menu from 'material-ui/Menu/Menu';
 import MenuItem from 'material-ui/MenuItem/MenuItem';
 import { Link } from 'react-router-dom';
+import { Avatar } from 'material-ui';
 
 export const ProfileMenu = (props) => {
     return (
@@ -20,6 +21,12 @@ export const ProfileMenu = (props) => {
                         <Link to="profile" />
                     }
                 />
+                <MenuItem
+                    primaryText="Manage Invites"
+                    rightAvatar={props.invitations ? (
+                        <Avatar size={20} >
+                            {props.invitations.length}
+                        </Avatar>) : null} />
                 <MenuItem
                     primaryText="Sign Out"
                     onClick={props.handleSignOut}

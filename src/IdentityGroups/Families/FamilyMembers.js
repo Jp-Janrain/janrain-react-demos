@@ -37,7 +37,7 @@ export class FamilyMembers extends Component {
                 },
                 "relationTypeCodes": [
                     document.getElementById('invitee_access_member').value === 'on' ? "IS_MEMBER_OF" : null,
-                    document.getElementById('invitee_access_admin').value === 'on' ? "IS_MEMBER_OF" : null,
+                    document.getElementById('invitee_access_admin').value === 'on' ? "IS_HEAD_OF" : null,
                 ]
             },
             this.handleInviteSuccess,
@@ -61,17 +61,20 @@ export class FamilyMembers extends Component {
 
 
             const members = []
-            members.push(this.props.familyMembers.map((familyMember, i) => {
-                const user = familyMember.user
-                return (
-                    <IdentityListItem
-                        key={i}
-                        user={user}
-                        relations={familyMember.relations}
-                        // Below test would work if members list returned uuids
-                        canEdit={!isCurrentUser(user.uuid) && this.props.isHeadOf} />
-                )
-            }))
+            // This is a bad way to handle this
+            if (!this.props.familyMembers === {}) {
+                members.push(this.props.familyMembers.map((familyMember, i) => {
+                    const user = familyMember.user
+                    return (
+                        <IdentityListItem
+                            key={i}
+                            user={user}
+                            relations={familyMember.relations}
+                            // Below test would work if members list returned uuids
+                            canEdit={!isCurrentUser(user.uuid) && this.props.isHeadOf} />
+                    )
+                }))
+            }
 
             return (
                 <div>
