@@ -6,7 +6,6 @@ import Button from 'material-ui/Button';
 import { updateFamilyInfo } from './FamiliesAPI';
 import { flattenNestedKeys } from '../IdentityGroupsAPI';
 import { FAMILY_INFO_FORM_ATTRIBUTES } from './_Config';
-import { FamilyRenameDialog } from './FamilyRenameDialog';
 
 export class FamilyInfoForm extends Component {
     constructor(props) {
@@ -14,7 +13,6 @@ export class FamilyInfoForm extends Component {
         this.state = {
             familyInfo: flattenNestedKeys(props.familyInfo),
             editingEnabled: false,
-            renameDialogOpen: false,
         }
         this.familyInfoInitialState = Object.assign({}, this.state.familyInfo)
     }
@@ -37,12 +35,6 @@ export class FamilyInfoForm extends Component {
         this.setState({ familyInfo: this.familyInfoInitialState })
         this.setState({ editingEnabled: false })
     }
-    handleOpenRenameDialog = () => {
-        this.setState({ renameDialogOpen: true })
-    }
-    handleCloseRenameDialog = () => {
-        this.setState({ renameDialogOpen: false })
-    }
     handleUpdateField = (e) => {
         const familyInfo = Object.assign({}, this.state.familyInfo)
         familyInfo[e.target.id] = e.target.value
@@ -56,23 +48,13 @@ export class FamilyInfoForm extends Component {
     handleUpdateFamilyInfoError = (errorMessage) => {
         console.log("ERROR LOADING FAMILY DETAILS: " + errorMessage)
     }
-    handleRenameSubmit = () => {
-        const familyName = document.getElementById('family_name_update').value
-        const description = document.getElementById('family_description_update').value
-        updateFamilyInfo(
-            this.state.familyInfo.uuid,
-            { familyName: familyName, description: description },
-            this.handleUpdateFamilyInfoSuccess, this.handleUpdateFamilyInfoError
-        )
-    }
     render() {
 
         const addressActions = []
         if (this.props.canEdit) {
             if (!this.state.editingEnabled) {
                 addressActions.push(
-                    <Button onClick={this.handleEditAction} key='edit' >Edit</Button>,
-                    <Button onClick={this.handleOpenRenameDialog} key='rename' >Rename</Button>)
+                    <Button onClick={this.handleEditAction} key='edit' >Edit</Button>)
             } else {
                 addressActions.push(
                     <Button primary={true} onClick={this.handleSaveAction} key='save' >Save</Button>,
@@ -99,11 +81,6 @@ export class FamilyInfoForm extends Component {
             <div>
                 {fields}
                 <div align="center">{addressActions}</div>
-                <FamilyRenameDialog
-                    isOpen={this.state.renameDialogOpen}
-                    familyInfo={this.state.familyInfo}
-                    handleCloseRenameDialog={this.handleCloseRenameDialog}
-                    handleRenameSubmit={this.handleRenameSubmit} />
             </div>
 
         )
