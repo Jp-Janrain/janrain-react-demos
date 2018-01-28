@@ -29,7 +29,6 @@ export const keepIdentityGroupsTokenActive = () => {
     const pgAccessToken = window.localStorage.getItem('privategroups_access_token')
     if (!pgAccessToken | isTokenExpired(pgAccessToken)) {
         //     Do a token refresh here
-        alert('token error to come')
     }
 }
 

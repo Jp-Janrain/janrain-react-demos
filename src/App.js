@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { BrowserRouter as Router } from 'react-router-dom'
 import Route from 'react-router-dom/Route';
 
@@ -9,7 +8,6 @@ import { AppBarHeader } from './Layout/AppBarHeader';
 import { Callback } from './Auth/Callback';
 import { isLoggedIn } from './Auth/AuthService'
 import { UnAuthorized } from './Layout/UnAuthorized';
-
 
 const styles = {
   root: {
@@ -52,25 +50,22 @@ export class App extends Component {
 
   render() {
     return (
-      <MuiThemeProvider>
-        <Router>
-          <div>
-            <Route path="/auth/callback" component={Callback} />
-            <Route path="/auth/:audience/callback" component={Callback} />
-            <AppBarHeader
-              toggleDrawer={this.handleDrawerToggle}
-              handleSignOut={this.handleSignOut} />
-            <AppDrawer
-              isOpen={this.state.drawerIsOpen}
-              handleClose={this.handleDrawerClose}
-              handleToggle={this.handleDrawerToggle} />
-            {/* <Route path="/families" component={Families} /> */}
-            <div style={styles.root}>
-              <Route path="/families" component={this.securePath(FamiliesContainer)} />
-            </div>
+      <Router>
+        <div>
+          <Route path="/auth/callback" component={Callback} />
+          <Route path="/auth/:audience/callback" component={Callback} />
+          <AppBarHeader
+            toggleDrawer={this.handleDrawerToggle}
+            handleSignOut={this.handleSignOut} />
+          <AppDrawer
+            isOpen={this.state.drawerIsOpen}
+            handleClose={this.handleDrawerClose}
+            handleToggle={this.handleDrawerToggle} />
+          <div style={styles.root}>
+            <Route path="/families" component={this.securePath(FamiliesContainer)} />
           </div>
-        </Router>
-      </ MuiThemeProvider>
+        </div>
+      </Router>
     );
   }
 }

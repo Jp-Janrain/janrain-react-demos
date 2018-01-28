@@ -1,43 +1,44 @@
 import React from 'react'
 import Dialog from 'material-ui/Dialog/Dialog';
-import { TextField, FlatButton } from 'material-ui';
+import { TextField } from 'material-ui';
+import Button from 'material-ui/Button';
+import DialogActions from 'material-ui/Dialog/DialogActions';
+import DialogTitle from 'material-ui/Dialog/DialogTitle';
+import List from 'material-ui/List/List';
+import ListItem from 'material-ui/List/ListItem';
+import DialogContent from 'material-ui/Dialog/DialogContent';
+
 
 
 export const FamilyRenameDialog = (props) => {
 
-    const renameDialogActions = [
-        <FlatButton
-            label="Cancel"
-            secondary={true}
-            onClick={props.handleCloseRenameDialog}
-        />,
-        <FlatButton
-            label="Submit"
-            primary={true}
-            disabled={false}
-            onClick={props.handleRenameSubmit}
-        />,
-    ]
-
     return (
-
-        <Dialog
-            title="Rename Family"
-            actions={renameDialogActions}
-            modal={true}
-            open={props.isOpen} >
-            <TextField
-                id="family_name_update"
-                floatingLabelText="Family Name"
-                defaultValue={props.familyInfo.familyName}
-                fullWidth={true}
-            /> <br />
-            <TextField
-                id="family_description_update"
-                floatingLabelText="Description"
-                defaultValue={props.familyInfo.description}
-                fullWidth={true}
-            /> <br />
+        <Dialog open={props.isOpen} onClose={props.handleCloseRenameDialog}>
+            <DialogTitle>Rename Family</DialogTitle>
+            <DialogContent>
+                <List>
+                    <ListItem>
+                        <TextField
+                            id="family_name_update"
+                            label="Family Name"
+                            defaultValue={props.familyInfo.familyName}
+                            fullWidth={true}
+                        />
+                    </ListItem>
+                    <ListItem>
+                        <TextField
+                            id="family_description_update"
+                            label="Description"
+                            defaultValue={props.familyInfo.description}
+                            fullWidth={true}
+                        />
+                    </ListItem>
+                </List>
+            </DialogContent>
+            <DialogActions >
+                <Button color="secondary" onClick={props.handleCloseRenameDialog} autoFocus>Cancel</Button>
+                <Button color="primary" onClick={props.handleRenameSubmit} >Submit</Button>
+            </DialogActions>
         </Dialog>
     )
 }

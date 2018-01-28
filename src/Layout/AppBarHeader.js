@@ -8,6 +8,23 @@ import { ProfileMenu } from './ProfileMenu';
 import { SignInButton } from './SignInButton';
 import { isLoggedIn, getIdToken, logout, currentUserUUID } from '../Auth/AuthService';
 import { getUsersInvites } from '../IdentityGroups/Families/FamiliesAPI';
+import MenuIcon from 'material-ui-icons/Menu';
+import Toolbar from 'material-ui/Toolbar/Toolbar';
+import IconButton from 'material-ui/IconButton/IconButton';
+import Typography from 'material-ui/Typography/Typography';
+
+const styles = {
+    root: {
+        width: '100%',
+    },
+    flex: {
+        flex: 1,
+    },
+    menuButton: {
+        marginLeft: -12,
+        marginRight: 20,
+    },
+};
 
 const getUserInfo = () => {
     const token = decode(getIdToken());
@@ -30,10 +47,11 @@ export class AppBarHeader extends Component {
             notifications: false,
             invitatations: [],
         }
+        // alert(JSON.stringify(this.state.user))
         // this.handleMenuState = this.handleMenuState.bind(this);
         // this.handleSignOut = this.handleSignOut.bind(this);
-        this.toggleProfileMenu = this.toggleProfileMenu.bind(this);
-        this.hideProfileMenu = this.hideProfileMenu.bind(this);
+        // this.toggleProfileMenu = this.toggleProfileMenu.bind(this);
+        // this.hideProfileMenu = this.hideProfileMenu.bind(this);
     }
     componentWillMount() {
         if (isLoggedIn()) {
@@ -74,7 +92,7 @@ export class AppBarHeader extends Component {
                 <div id="profile-button-container">
                     <ProfileButton
                         id="profile-button"
-                        displayName={state.user.displayName}
+                        displayName={this.state.user.displayName}
                         onClick={(e) => this.toggleProfileMenu(e)}
                         notifications={this.state.notifications} />
                     <ProfileMenu
@@ -92,14 +110,19 @@ export class AppBarHeader extends Component {
 
     render() {
         return (
-            <div>
-                <AppBar
-                    title={APP_TITLE}
-                    iconElementRight={this.handleMenuState()}
-                    showMenuIconButton={true}
-                    onLeftIconButtonClick={this.props.toggleDrawer}
-                />
-            </div>
+
+            <AppBar position="static" style={styles.root}>
+                <Toolbar>
+                    <IconButton onClick={this.props.toggleDrawer} color="inherit" style={styles.menuButton}>
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography type="title" color="inherit" style={styles.flex}>
+                        {APP_TITLE}
+                    </Typography>
+                    {this.handleMenuState()}
+                </Toolbar>
+            </AppBar>
+
         );
     }
 }

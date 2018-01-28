@@ -1,17 +1,18 @@
 import React from 'react';
-import FontIcon from 'material-ui/FontIcon';
-import FlatButton from 'material-ui/FlatButton/FlatButton';
+import Icon from 'material-ui/Icon';
+import Button from 'material-ui/Button';
 import { login } from '../Auth/AuthService';
 
 const style = { color: "#fff" }
 
 export const SignInButton = () => {
     return (
-        <FlatButton
-            label="Sign In"
+        <Button
             target="_self"
             onClick={login}
-            icon={<FontIcon className="material-icons" >perm_identity</FontIcon>}
-            style={style} />
+            icon={<Icon className="material-icons" >perm_identity</Icon>}
+            style={style}>
+            Sign In
+        </Button>
     )
 }

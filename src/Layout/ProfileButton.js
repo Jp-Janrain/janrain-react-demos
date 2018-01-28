@@ -1,15 +1,13 @@
 import React from 'react'
-import FlatButton from 'material-ui/FlatButton/FlatButton';
-import FontIcon from 'material-ui/FontIcon/FontIcon';
+import Icon from 'material-ui/Icon/Icon';
+import Button from 'material-ui/Button';
 
-const style = { color: "#fff" }
 
 export const ProfileButton = (props) => {
     return (
-        <FlatButton
-            label={props.displayName}
-            icon={<FontIcon className="material-icons" >{props.notifications? 'notifications' : 'perm_identity'}</FontIcon>}
-            onClick={props.onClick}
-            style={style} />
+        <Button onClick={props.onClick} color="inherit">
+            {props.displayName}
+            <Icon >{props.notifications ? 'notifications' : 'perm_identity'}</Icon>
+        </Button>
     );
 }

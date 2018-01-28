@@ -1,10 +1,14 @@
+// Needs to be updated to take an Active vs. Pending state and adjust the format accordingly
+// Pending user will take the current menu, Active menu should have: "Remove", "View", "Change Permissions"
+
 import React, { Component } from 'react';
-import { CircularProgress, FlatButton } from 'material-ui';
+import { CircularProgress } from 'material-ui';
 import { IdentityListItem } from '../Identities/IdentityListItem';
-import { List } from 'material-ui/List';
-import { isCurrentUser } from '../../Auth/AuthService';
+import List from 'material-ui/List';
+// import { isCurrentUser } from '../../Auth/AuthService';
 import { InviteDialog } from './InviteDialog';
 import { inviteFamilyMember } from './FamiliesAPI';
+import Button from 'material-ui/Button/Button';
 
 export class FamilyMembers extends Component {
     constructor() {
@@ -56,13 +60,13 @@ export class FamilyMembers extends Component {
             const membersActions = []
             if (this.props.isHeadOf) {
                 membersActions.push(
-                    <FlatButton label="Invite Members" onClick={this.openInviteDialog} key='invite' />)
+                    <Button onClick={this.openInviteDialog} key='invite'>Invite Members</Button>)
             }
 
 
             const members = []
-            // This is a bad way to handle this
-            if (!this.props.familyMembers === {}) {
+            // Trying to handle for when no users are returned... Shouldn't happen, but don't want the UI to break if it does
+            // if (!this.props.familyMembers === {}) {
                 members.push(this.props.familyMembers.map((familyMember, i) => {
                     const user = familyMember.user
                     return (
@@ -71,10 +75,11 @@ export class FamilyMembers extends Component {
                             user={user}
                             relations={familyMember.relations}
                             // Below test would work if members list returned uuids
-                            canEdit={!isCurrentUser(user.uuid) && this.props.isHeadOf} />
+                            // canEdit={!isCurrentUser(user.uuid) && this.props.isHeadOf} />
+                            canEdit={true} />
                     )
                 }))
-            }
+            // }
 
             return (
                 <div>

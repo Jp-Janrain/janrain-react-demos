@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { LinearProgress } from 'material-ui'
 
 import { FamilyCard } from './FamilyCard'
-import { ErrorDialog } from '../../Layout/ErrorDialog'
 import { keepIdentityGroupsTokenActive } from '../IdentityGroupsAPI';
-import { GridList } from 'material-ui/GridList';
+import GridList from 'material-ui/GridList';
 import { currentUserUUID } from '../../Auth/AuthService';
 import { getUsersFamilies } from './FamiliesAPI';
+import GridListTile from 'material-ui/GridList/GridListTile';
+import { ErrorMessageWithRedirect } from '../../Layout/ErrorMessageWithRedirect';
 
 
 export class FamiliesContainer extends Component {
@@ -42,7 +43,7 @@ export class FamiliesContainer extends Component {
         const families = this.state.families
         const foundIndex = families.findIndex(x => x.family.uuid === familyObj.uuid)
         families[foundIndex].family = familyObj
-        this.setState({families: families})
+        this.setState({ families: families })
     }
 
     componentDidMount() {
@@ -55,14 +56,14 @@ export class FamiliesContainer extends Component {
 
         } else if (this.state.error) {
             return (
-                <ErrorDialog
+                <ErrorMessageWithRedirect
                     title='Error'
-                    text={this.state.errorMessage} />
+                    message={this.state.errorMessage} />
             )
 
         } else {
             const cards = []
-            cards.push(this.state.families.map( (familyObject) => {
+            cards.push(this.state.families.map((familyObject) => {
                 return (
                     <FamilyCard
                         key={familyObject.family.uuid}
@@ -73,8 +74,15 @@ export class FamiliesContainer extends Component {
                 )
             }, this))
             return (
-                <GridList padding={10} cellHeight='auto' cols={1} style={{ maxWidth: '1100px' }}>
-                    {cards}
+                <GridList
+                    padding={10}
+                    cellHeight='auto'
+                    cols={1}
+                    style={{ maxWidth: '1100px', width: '100%' }}
+                >
+                    <GridListTile>
+                        {cards}
+                    </GridListTile>
                 </GridList>
             )
         }

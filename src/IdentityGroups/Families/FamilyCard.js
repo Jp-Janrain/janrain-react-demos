@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { Card, CardText } from 'material-ui/Card';
-
+import Card from 'material-ui/Card';
 import { keepIdentityGroupsTokenActive } from '../IdentityGroupsAPI';
 import { FamilyContent } from './FamilyContent';
-import CardTitle from 'material-ui/Card/CardTitle';
 import { getFamilyInfo, getFamilyMembers } from './FamiliesAPI';
+import CardHeader from 'material-ui/Card/CardHeader';
+import CardContent from 'material-ui/Card/CardContent';
+import IconButton from 'material-ui/IconButton/IconButton';
+import MoreVertIcon from 'material-ui-icons/MoreVert';
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
+import CardActions from 'material-ui/Card/CardActions';
+import Collapse from 'material-ui/transitions/Collapse';
+
 
 export class FamilyCard extends Component {
   constructor() {
@@ -14,6 +20,7 @@ export class FamilyCard extends Component {
       familyMembers: {},
       isLoadingInfo: true,
       familyInfo: {},
+      expandend: false,
     }
   }
 
@@ -57,6 +64,10 @@ export class FamilyCard extends Component {
     console.log("ERROR LOADING FAMILY MEMBERS: " + errorMessage)
   }
 
+  handleExpandClick = () => {
+    this.setState({ expanded: !this.state.expanded });
+  };
+
   componentDidMount() {
     const familyUUID = this.props.family.uuid
     getFamilyInfo(familyUUID, this.handleLoadInfoSuccess, this.handleLoadInfoError)
@@ -68,13 +79,27 @@ export class FamilyCard extends Component {
 
     return (
       <Card>
-        <CardTitle
-          showExpandableButton={true}
-          actAsExpander={true}
+        <CardHeader
+          action={
+            <IconButton>
+              <MoreVertIcon />
+            </IconButton>
+          }
           title={family.familyName}
-          subtitle={family.description} />
-        <CardText expandable={true}>
-          <FamilyContent key={family.uuid}
+          subheader={family.description} />
+        <CardActions style={{ display: 'flex' }} onClick={this.handleExpandClick} >
+          <IconButton
+            onClick={this.handleExpandClick}
+            aria-expanded={this.state.expanded}
+            aria-label="Show more"
+            style={this.state.expanded ? { transform: 'rotate(180deg)' } : null}
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+          <CardContent >
+            <FamilyContent key={family.uuid}
             familyInfo={this.state.familyInfo}
             familyMembers={this.state.familyMembers}
             isLoadingInfo={this.state.isLoadingInfo}
@@ -83,7 +108,8 @@ export class FamilyCard extends Component {
             isMemberOf={o => o.relationTypeCode === "IS_MEMBER_OF"}
             handleUpdateInfo={this.handleUpdateInfo}
             handleFamilyRename={this.props.handleFamilyRename} />
-        </CardText>
+          </CardContent>
+        </Collapse>
 
       </Card>
     )

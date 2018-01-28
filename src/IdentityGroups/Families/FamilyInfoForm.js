@@ -1,5 +1,8 @@
+// The Form behavior should be broken out into its own component that handles all forms
+
 import React, { Component } from 'react'
-import { TextField, FlatButton } from 'material-ui'
+import { TextField } from 'material-ui'
+import Button from 'material-ui/Button';
 import { updateFamilyInfo } from './FamiliesAPI';
 import { flattenNestedKeys } from '../IdentityGroupsAPI';
 import { FAMILY_INFO_FORM_ATTRIBUTES } from './_Config';
@@ -14,6 +17,10 @@ export class FamilyInfoForm extends Component {
             renameDialogOpen: false,
         }
         this.familyInfoInitialState = Object.assign({}, this.state.familyInfo)
+    }
+    hasFormChanged = () => {
+        if (!this.state.familyInfo === this.familyInfoInitialState) { return true }
+        return
     }
     handleEditAction = () => {
         this.setState({ editingEnabled: true })
@@ -64,12 +71,12 @@ export class FamilyInfoForm extends Component {
         if (this.props.canEdit) {
             if (!this.state.editingEnabled) {
                 addressActions.push(
-                    <FlatButton label="Edit" onClick={this.handleEditAction} key='edit' />,
-                    <FlatButton label="Rename" onClick={this.handleOpenRenameDialog} key='rename' />)
+                    <Button onClick={this.handleEditAction} key='edit' >Edit</Button>,
+                    <Button onClick={this.handleOpenRenameDialog} key='rename' >Rename</Button>)
             } else {
                 addressActions.push(
-                    <FlatButton label='Save' primary={true} onClick={this.handleSaveAction} key='save' />,
-                    <FlatButton label='Cancel' secondary={true} onClick={this.handleCancelAction} key='cancel' />)
+                    <Button primary={true} onClick={this.handleSaveAction} key='save' >Save</Button>,
+                    <Button secondary={true} onClick={this.handleCancelAction} key='cancel' >Cancel</Button>)
             }
         }
 
@@ -81,10 +88,10 @@ export class FamilyInfoForm extends Component {
                 <TextField
                     key={field.attribute}
                     id={field.attribute}
-                    floatingLabelText={field.label}
+                    label={field.label}
                     value={this.state.familyInfo[field.attribute] ? this.state.familyInfo[field.attribute] : ''}
                     disabled={!this.state.editingEnabled}
-                    fullWidth={true}
+                    fullWidth
                     onChange={field.customValidation ? field.customValidation : this.handleUpdateField} />)
         }))
 

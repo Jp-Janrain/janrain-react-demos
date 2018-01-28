@@ -1,3 +1,5 @@
+// Add support to list relationship types, and available actions
+
 export const FAMILY_INFO_FORM_ATTRIBUTES = [
     {
         attribute: 'familyAddress.phone',
@@ -14,11 +16,11 @@ export const FAMILY_INFO_FORM_ATTRIBUTES = [
         label: 'Address 1',
         customValidation: null
     },
-    // {
-    //     attribute: 'familyAddress.address2',
-    //     label: 'Address 2',
-    //     customValidation: null
-    // },
+    {
+        attribute: 'familyAddress.address2',
+        label: 'Address 2',
+        customValidation: null
+    },
     {
         attribute: 'familyAddress.city',
         label: 'City',

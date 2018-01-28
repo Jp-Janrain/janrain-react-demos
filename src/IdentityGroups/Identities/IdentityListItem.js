@@ -1,35 +1,87 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ListItem from 'material-ui/List/ListItem';
-import { Avatar, IconButton, IconMenu } from 'material-ui';
+import { Avatar, IconButton } from 'material-ui';
 import { MenuItem } from 'material-ui/Menu';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import ListItemAvatar from 'material-ui/List/ListItemAvatar';
+import ListItemSecondaryAction from 'material-ui/List/ListItemSecondaryAction';
+import ListItemText from 'material-ui/List/ListItemText';
+import MoreVertIcon from 'material-ui-icons/MoreVert';
+import ListItemIcon from 'material-ui/List/ListItemIcon';
+import DraftsIcon from 'material-ui-icons/Drafts';
+import SendIcon from 'material-ui-icons/Send';
+import DeleteIcon from 'material-ui-icons/Delete';
+import Popover from 'material-ui/Popover/Popover';
+
 
 const realationshipTypes = {
     IS_HEAD_OF: 'Admin',
-    IS_MEMBER_OF: 'Member'
+    IS_MEMBER_OF: 'Member',
 }
 
-const iconButtonElement = (
-    <IconButton touch={true} >
-        <MoreVertIcon />
-    </IconButton>
-);
+export class IdentityListItem extends Component {
+    constructor() {
+        super()
+        this.state = {
+            menuIsOpen: false,
+            menuAnchorEl: null
+        }
+    }
+    handleMenuOpen = (e) => {
+        this.setState({ menuAnchorEl: e.currentTarget })
+    }
+    handleMenuClose = () => {
+        this.setState({ menuAnchorEl: null });
+    }
 
-const rightIconMenu = (
-    <IconMenu iconButtonElement={iconButtonElement}>
-        <MenuItem>Remove</MenuItem>
-    </IconMenu>
-);
 
-export const IdentityListItem = (props) => {
+    render() {
+        const { props } = this
 
-    return (
-        <ListItem key={props.user.uuid}
-            disabled={true}
-            leftAvatar={props.user.givenName ? <Avatar>{props.user.givenName.charAt(0)}</Avatar> : null}
-            primaryText={props.user.givenName + ' ' + props.user.familyName}
-            secondaryText={props.relations.map(({ code }) => realationshipTypes[code])}
-            rightIconButton={props.canEdit ? rightIconMenu : null} >
-        </ListItem>
-    )
+        const rightIconMenu = (
+            <div>
+                <IconButton
+                    onClick={this.handleMenuOpen}>
+                    <MoreVertIcon />
+                </IconButton>
+                <Popover
+                    id="user-menu"
+                    anchorEl={this.state.menuAnchorEl}
+                    open={Boolean(this.state.menuAnchorEl)}
+                    onClose={this.handleMenuClose} >
+                    <MenuItem onClick={this.handleMenuClose}>
+                        <ListItemIcon>
+                            <SendIcon />
+                        </ListItemIcon>
+                        <ListItemText inset primary="Resend Invite" />
+                    </MenuItem>
+                    <MenuItem onClick={this.handleMenuClose}>
+                        <ListItemIcon>
+                            <DraftsIcon />
+                        </ListItemIcon>
+                        <ListItemText inset primary="Edit Invite" />
+                    </MenuItem>
+                    <MenuItem onClick={this.handleMenuClose}>
+                        <ListItemIcon>
+                            <DeleteIcon />
+                        </ListItemIcon>
+                        <ListItemText inset primary="Delete Invite" />
+                    </MenuItem>
+                </Popover>
+            </div>
+        )
+
+        return (
+            <ListItem>
+                <ListItemAvatar>
+                    {props.user.givenName ? <Avatar>{props.user.givenName.charAt(0)}</Avatar> : null}
+                </ListItemAvatar>
+                <ListItemText
+                    primary={props.user.givenName + ' ' + props.user.familyName}
+                    secondary={props.relations.map(({ code }) => realationshipTypes[code])} />
+                <ListItemSecondaryAction>
+                    {props.canEdit ? rightIconMenu : null}
+                </ListItemSecondaryAction>
+            </ListItem>
+        )
+    }
 }
