@@ -12,6 +12,8 @@ import CardActions from 'material-ui/Card/CardActions';
 import Collapse from 'material-ui/transitions/Collapse';
 import { FamilyRenameDialog } from './FamilyRenameDialog';
 import { FamilyCardMenu } from './FamilyCardMenu';
+import List from 'material-ui/List/List';
+import ListItem from 'material-ui/List/ListItem';
 
 
 export class FamilyCard extends Component {
@@ -31,37 +33,30 @@ export class FamilyCard extends Component {
     keepIdentityGroupsTokenActive()
   }
 
-// RenameDialog Functions
-    handleOpenRenameDialog = () => {
-      this.setState({ renameDialogOpen: true })
+  handleOpenRenameDialog = () => {
+    this.setState({ renameDialogOpen: true })
   }
   handleCloseRenameDialog = () => {
-      this.setState({ renameDialogOpen: false })
-  }
-  handleUpdateField = (e) => {
-      const familyInfo = Object.assign({}, this.state.familyInfo)
-      familyInfo[e.target.id] = e.target.value
-      this.setState({ familyInfo: familyInfo })
+    this.setState({ renameDialogOpen: false })
   }
   handleUpdateFamilyInfoSuccess = (data) => {
-      this.props.handleFamilyRename(data)
-      this.props.handleUpdateInfo(data)
-      this.setState({ renameDialogOpen: false })
+    this.props.handleFamilyRename(data)
+    this.props.handleUpdateInfo(data)
+    this.setState({ renameDialogOpen: false })
   }
   handleUpdateFamilyInfoError = (errorMessage) => {
-      console.log("ERROR LOADING FAMILY DETAILS: " + errorMessage)
+    console.log("ERROR LOADING FAMILY DETAILS: " + errorMessage)
   }
   handleRenameSubmit = () => {
-      const familyName = document.getElementById('family_name_update').value
-      const description = document.getElementById('family_description_update').value
+    const familyName = document.getElementById('family_name_update').value
+    const description = document.getElementById('family_description_update').value
 
-      updateFamilyInfo(
-          this.state.familyInfo.uuid,
-          { familyName: familyName, description: description },
-          this.handleUpdateFamilyInfoSuccess, this.handleUpdateFamilyInfoError
-      )
+    updateFamilyInfo(
+      this.state.familyInfo.uuid,
+      { familyName: familyName, description: description },
+      this.handleUpdateFamilyInfoSuccess, this.handleUpdateFamilyInfoError
+    )
   }
-  // #############################
 
   handleLoadInfoSuccess = (data) => {
     this.setState({
@@ -115,18 +110,22 @@ export class FamilyCard extends Component {
     return (
       <Card>
         <CardHeader
-          action={<FamilyCardMenu handleOpenRenameDialog={this.handleOpenRenameDialog}/>}
+          action={<FamilyCardMenu handleOpenRenameDialog={this.handleOpenRenameDialog} />}
           title={family.familyName}
           subheader={family.description} />
-        <CardActions style={{ display: 'flex' }} onClick={this.handleExpandClick} >
-          <IconButton
-            onClick={this.handleExpandClick}
-            aria-expanded={this.state.expanded}
-            aria-label="Show more"
-            style={this.state.expanded ? { transform: 'rotate(180deg)' } : null}
-          >
-            <ExpandMoreIcon />
-          </IconButton>
+        <CardActions disableActionSpacing onClick={this.handleExpandClick} >
+          <List>
+            <ListItem button>
+              <IconButton
+                onClick={this.handleExpandClick}
+                aria-expanded={this.state.expanded}
+                aria-label="Show more"
+                style={this.state.expanded ? { transform: 'rotate(180deg)' } : null}
+              >
+                <ExpandMoreIcon />
+              </IconButton>
+            </ListItem>
+          </List>
         </CardActions>
         <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
           <CardContent >
