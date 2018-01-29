@@ -9,7 +9,7 @@ import ListItem from 'material-ui/List/ListItem';
 import FormGroup from 'material-ui/Form/FormGroup';
 import FormControlLabel from 'material-ui/Form/FormControlLabel';
 
-export const InviteDialog = (props) => {
+export const MembersInviteDialog = (props) => {
 
     const inviteDialogActions = [
         <Button

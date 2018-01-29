@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Icon from 'material-ui/Icon';
 import { FamilyInfo } from './FamilyInfo';
-import { FamilyMembers } from './FamilyMembers';
+import { MembersTab } from './MembersTab';
 import Typography from 'material-ui/Typography/Typography';
 
 function TabContainer(props) {
@@ -52,7 +52,7 @@ export class FamilyCardContent extends Component {
                         postMessage={this.props.postMessage} />}
 
                 {tabPosition === 1 &&
-                    <FamilyMembers
+                    <MembersTab
                         isLoading={this.props.members.isLoading}
                         familyMembers={this.props.members.data}
                         isHeadOf={this.props.isHeadOf}

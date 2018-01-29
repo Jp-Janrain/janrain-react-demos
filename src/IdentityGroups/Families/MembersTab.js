@@ -3,14 +3,15 @@
 
 import React, { Component } from 'react';
 import { CircularProgress } from 'material-ui';
-import { IdentityListItem } from '../Identities/IdentityListItem';
+import { MembersListItem } from './MembersListItem';
 import List from 'material-ui/List';
 // import { isCurrentUser } from '../../Auth/AuthService';
-import { InviteDialog } from './InviteDialog';
+import { MembersInviteDialog } from './MembersInviteDialog';
 import { inviteFamilyMember } from './FamiliesAPI';
 import Button from 'material-ui/Button/Button';
+import { RELATIONSHIP_TYPES } from './_Config';
 
-export class FamilyMembers extends Component {
+export class MembersTab extends Component {
     constructor() {
         super()
         this.state = {
@@ -58,31 +59,41 @@ export class FamilyMembers extends Component {
                     <Button onClick={this.openInviteDialog} key='invite'>Invite Members</Button>)
             }
 
-
-            const members = []
-            // Trying to handle for when no users are returned... Shouldn't happen, but don't want the UI to break if it does
-            // if (!this.props.familyMembers === {}) {
-                members.push(this.props.familyMembers.map((familyMember, i) => {
+            const members = {}
+            const membersList = []
+            Object.entries(RELATIONSHIP_TYPES).map(([relationshipType, relationshipLabel]) => {
+                members[relationshipType] = []
+                this.props.familyMembers.map((familyMember, i) => {
                     const user = familyMember.user
-                    return (
-                        <IdentityListItem
-                            key={i}
-                            user={user}
-                            relations={familyMember.relations}
-                            // Below test would work if members list returned uuids
-                            // canEdit={!isCurrentUser(user.uuid) && this.props.isHeadOf} />
-                            canEdit={true} />
-                    )
-                }))
-            // }
+                    familyMember.relations.map((relationship) => {
+                        if (relationship.code === relationshipType) {
+                            members[relationshipType].push(
+                                <MembersListItem
+                                    key={i}
+                                    user={user}
+                                    relations={familyMember.relations}
+                                    status={relationship.status}
+                                    // Below test would work if members list returned uuids
+                                    // canEdit={!isCurrentUser(user.uuid) && this.props.isHeadOf} />
+                                    canEdit={true} />
+                            )
+                        }
+                    })
+                })
+                membersList.push(
+                    <List>
+                        {relationshipLabel+ 's'}
+                        {members[relationshipType]}
+                    </List>
+                )
+            })
 
             return (
+
                 <div>
-                    <List>
-                        {members}
-                    </List>
+                    {membersList}
                     <div align="center">{membersActions}</div>
-                    <InviteDialog
+                    <MembersInviteDialog
                         isOpen={this.state.inviteDialogOpen}
                         submitAction={this.handleInviteSubmit}
                         closeAction={this.closeInviteDialog} />

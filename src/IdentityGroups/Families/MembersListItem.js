@@ -11,9 +11,9 @@ import SendIcon from 'material-ui-icons/Send';
 import DeleteIcon from 'material-ui-icons/Delete';
 import { MoreIconMenu } from '../../Layout/MoreIconMenu';
 import { RELATIONSHIP_TYPES } from '../Families/_Config';
-import {InvitePendingMenu} from './InvitePendingMenu'
+import {MembersListMenu} from './MembersListMenu'
 
-export class IdentityListItem extends Component {
+export class MembersListItem extends Component {
     constructor() {
         super()
         this.state = {
@@ -32,7 +32,7 @@ export class IdentityListItem extends Component {
     render() {
         const { props } = this
 
-        const rightIconMenu = (<InvitePendingMenu />)
+        const rightIconMenu = (<MembersListMenu status={this.props.status}/>)
 
         return (
             <ListItem>
@@ -41,8 +41,7 @@ export class IdentityListItem extends Component {
                 </ListItemAvatar>
                 <ListItemText
                     primary={props.user.givenName + ' ' + props.user.familyName}
-                    secondary={props.relations.map(({ code }) => RELATIONSHIP_TYPES
-                    [code])} />
+                    secondary={this.props.status} />
                 <ListItemSecondaryAction>
                     {props.canEdit ? rightIconMenu : null}
                 </ListItemSecondaryAction>
