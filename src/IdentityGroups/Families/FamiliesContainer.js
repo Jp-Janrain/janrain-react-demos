@@ -9,6 +9,9 @@ import { getUsersFamilies } from './FamiliesAPI';
 import GridListTile from 'material-ui/GridList/GridListTile';
 import { ErrorMessageWithRedirect } from '../../Layout/ErrorMessageWithRedirect';
 
+const style = {
+    gridList: {maxWidth: '1100px', width: '100%' }
+}
 
 export class FamiliesContainer extends Component {
     constructor(props) {
@@ -20,25 +23,6 @@ export class FamiliesContainer extends Component {
         }
     }
 
-    componentWillMount() {
-        keepIdentityGroupsTokenActive()
-    }
-
-    handleLoadFamiliesSuccess = (data) => {
-        this.setState({
-            isLoading: false,
-            families: data,
-        })
-    }
-
-    handleLoadFamiliesError = (errorMessage) => {
-        this.setState({
-            isLoading: false,
-            error: true,
-            errorMessage: errorMessage,
-        })
-    }
-
     handleRename = (familyObj) => {
         const families = this.state.families
         const foundIndex = families.findIndex(x => x.family.uuid === familyObj.uuid)
@@ -47,19 +31,18 @@ export class FamiliesContainer extends Component {
     }
 
     componentDidMount() {
-        getUsersFamilies(currentUserUUID(), this.handleLoadFamiliesSuccess, this.handleLoadFamiliesError)
+        getUsersFamilies(currentUserUUID(),
+            (data) => this.setState({ isLoading: false, families: data }),
+            (errorMessage) => {
+                this.props.postMessage(errorMessage)
+                this.setState({ isLoading: false })
+            }
+        )
     }
 
     render() {
         if (this.state.isLoading) {
             return (<LinearProgress />)
-
-        } else if (this.state.error) {
-            return (
-                <ErrorMessageWithRedirect
-                    title='Error'
-                    message={this.state.errorMessage} />
-            )
 
         } else {
             const cards = []
@@ -70,16 +53,12 @@ export class FamiliesContainer extends Component {
                         family={familyObject.family}
                         relations={familyObject.relations}
                         handleRename={this.handleRename}
+                        postMessage={this.props.postMessage}
                     />
                 )
             }, this))
             return (
-                <GridList
-                    padding={10}
-                    cellHeight='auto'
-                    cols={1}
-                    style={{ maxWidth: '1100px', width: '100%' }}
-                >
+                <GridList padding={10} cellHeight='auto' cols={1} style={style.gridList}>
                     <GridListTile>
                         {cards}
                     </GridListTile>

@@ -23,14 +23,9 @@ export class FamilyMembers extends Component {
     closeInviteDialog = () => {
         this.setState({ inviteDialogOpen: false })
     }
-    handleInviteSuccess = (data) => {
-        this.setState({ inviteDialogOpen: false })
-    }
-    handleInviteError = (errorMessage) => {
-        console.log("ERROR INVITING USER: " + errorMessage)
-    }
-    handleInviteSubmit = () => {
 
+    handleInviteSubmit = () => {
+        // This should be updated to use ControlledForm
         inviteFamilyMember(
             this.props.familyUUID,
             {
@@ -44,8 +39,8 @@ export class FamilyMembers extends Component {
                     document.getElementById('invitee_access_admin').value === 'on' ? "IS_HEAD_OF" : null,
                 ]
             },
-            this.handleInviteSuccess,
-            this.handleInviteError
+            (data) => this.setState({ inviteDialogOpen: false }),
+            (errorMessage) => this.props.postMessage("ERROR INVITING USER: " + errorMessage)
         )
     }
     render() {

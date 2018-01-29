@@ -8,6 +8,7 @@ import { AppBarHeader } from './Layout/AppBarHeader';
 import { Callback } from './Auth/Callback';
 import { isLoggedIn } from './Auth/AuthService'
 import { UnAuthorized } from './Layout/UnAuthorized';
+import { NotificationSnackbar } from './Layout/NotificationSnackbar';
 
 const styles = {
   root: {
@@ -26,12 +27,19 @@ export class App extends Component {
     this.state = {
       layout: null,
       drawerIsOpen: false,
+      notifications: [],
     }
     this.handleDrawerClose = this.handleDrawerClose.bind(this)
     this.handleDrawerToggle = this.handleDrawerToggle.bind(this)
     this.handleSignOut = this.handleSignOut.bind(this)
     this.securePath = this.securePath.bind(this)
   }
+
+  postMessage = (message) => {
+    const notifications = this.state.notifications.concat(message)
+    this.setState({ notifications })
+  }
+
   handleSignOut = () => {
     this.forceUpdate()
   }
@@ -49,6 +57,14 @@ export class App extends Component {
   }
 
   render() {
+
+    const notifications = []
+    if (this.state.notifications) {
+      this.state.notifications.map((notification) => {
+        notifications.push(<NotificationSnackbar message={notification} />)
+      })
+    }
+
     return (
       <Router>
         <div>
@@ -56,13 +72,20 @@ export class App extends Component {
           <Route path="/auth/:audience/callback" component={Callback} />
           <AppBarHeader
             toggleDrawer={this.handleDrawerToggle}
-            handleSignOut={this.handleSignOut} />
+            handleSignOut={this.handleSignOut}
+            postMessage={this.postMessage} />
           <AppDrawer
             isOpen={this.state.drawerIsOpen}
             handleClose={this.handleDrawerClose}
-            handleToggle={this.handleDrawerToggle} />
+            handleToggle={this.handleDrawerToggle}
+            postMessage={this.postMessage} />
           <div style={styles.root}>
-            <Route path="/families" component={this.securePath(FamiliesContainer)} />
+            <Route path="/families" render={(props) => {
+              return (this.securePath(
+                <FamiliesContainer {...props}
+                  postMessage={this.postMessage} />))
+            }} />
+            {notifications}
           </div>
         </div>
       </Router>

@@ -13,45 +13,35 @@ export class FamilyInfoForm extends Component {
         loading: false,
         notifications: [],
     }
+
     handleSaveAction = (formValue) => {
         this.setState({ loading: true })
         updateFamilyInfo(
             this.props.familyInfo.uuid,
             formValue,
-            this.handleUpdateFamilyInfoSuccess,
-            this.handleUpdateFamilyInfoError
+            (data) => {
+                this.props.postMessage("Family successfully updated")
+                this.setState({ loading: false})
+                this.props.handleUpdateInfo(data)
+            },
+            (errorMessage) => {
+                this.props.postMessage("ERROR UPDATING FAMILY DETAILS: " + errorMessage)
+                this.setState({ loading: false})
+            }
         )
     }
-    handleUpdateFamilyInfoSuccess = (data) => {
-        const notifications = this.state.notifications.concat("Family successfully updated")
-        this.setState({ loading: false, notifications })
-        this.props.handleUpdateInfo(data)
-    }
-    handleUpdateFamilyInfoError = (errorMessage) => {
-        const notifications = this.state.notifications.concat("ERROR UPDATING FAMILY DETAILS: " + errorMessage)
-        this.setState({ loading: false, notifications })
-    }
-    render() {
 
+    render() {
         const formAttributes = FAMILY_INFO_FORM_ATTRIBUTES
         const familyInfo = flattenNestedKeys(this.props.familyInfo)
-
         const fields = []
         formAttributes.map((field) => {
             field.defaultValue = familyInfo[field.attribute] ? familyInfo[field.attribute] : ''
             fields.push(field)
         })
 
-        const notifications = []
-        if (this.state.notifications) {
-            this.state.notifications.map((notification) => {
-                notifications.push(<NotificationSnackbar message={notification} />)
-            })
-        }
-
         return (
             <div>
-                {notifications}
                 <ControlledForm
                     fieldDefinitions={fields}
                     onSave={this.handleSaveAction}

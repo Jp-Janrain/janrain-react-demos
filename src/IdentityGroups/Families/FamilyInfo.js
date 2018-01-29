@@ -23,7 +23,8 @@ export class FamilyInfo extends Component {
                 <FamilyInfoForm
                     familyInfo={this.props.familyInfo}
                     canEdit={this.props.isHeadOf}
-                    handleUpdateInfo={this.props.handleUpdateInfo} />
+                    handleUpdateInfo={this.props.handleUpdateInfo}
+                    postMessage={this.props.postMessage} />
             )
         }
     }

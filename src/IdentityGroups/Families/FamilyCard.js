@@ -31,7 +31,6 @@ export class FamilyCard extends Component {
       },
       expandend: false,
       renameDialogOpen: false,
-      notifications: []
     }
   }
 
@@ -41,11 +40,6 @@ export class FamilyCard extends Component {
 
   handleCloseRenameDialog = () => {
     this.setState({ renameDialogOpen: false })
-  }
-
-  handleNotification = (message) => {
-    const notifications = this.state.notifications.concat(message)
-    this.setState({ notifications })
   }
 
   handleRenameSubmit = () => {
@@ -58,7 +52,7 @@ export class FamilyCard extends Component {
       (data) => {
         this.props.handleRename(data)
         this.setState({ renameDialogOpen: false })},
-      (errorMessage) => this.handleNotification('ERROR UPDATING: ' + errorMessage)
+      (errorMessage) => this.props.postMessage('ERROR UPDATING: ' + errorMessage)
     )
   }
 
@@ -81,7 +75,7 @@ export class FamilyCard extends Component {
     this.setState({
       [type]: {isLoading: false}
     })
-    this.handleNotification("ERROR LOADING FAMILY INFO: " + errorMessage)
+    this.props.postMessage("ERROR LOADING FAMILY INFO: " + errorMessage)
   }
 
   expandCard = () => {
@@ -101,16 +95,8 @@ export class FamilyCard extends Component {
   render() {
     const family = this.props.family
 
-    const notifications = []
-    if (this.state.notifications) {
-      this.state.notifications.map((notification) => {
-        notifications.push(<NotificationSnackbar message={notification} />)
-      })
-    }
-
     return (
       <div>
-        {notifications}
         <Card>
           <CardHeader
             action={<FamilyCardMenu handleOpenRenameDialog={this.handleOpenRenameDialog} />}
@@ -137,7 +123,8 @@ export class FamilyCard extends Component {
                 members={this.state.members}
                 isHeadOf={o => o.relationTypeCode === "IS_HEAD_OF"}
                 isMemberOf={o => o.relationTypeCode === "IS_MEMBER_OF"}
-                handleUpdateInfo={this.handleUpdateInfo} />
+                handleUpdateInfo={this.handleUpdateInfo}
+                postMessage={this.props.postMessage} />
             </CardContent>
           </Collapse>
           <FamilyRenameDialog

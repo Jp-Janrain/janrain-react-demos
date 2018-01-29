@@ -55,7 +55,8 @@ export class FamilyContent extends Component {
                         isHeadOf={this.props.isHeadOf}
                         isMemberOf={this.props.isMemberOf}
                         handleUpdateInfo={this.props.handleUpdateInfo}
-                        handleFamilyRename={this.props.handleFamilyRename} />}
+                        handleFamilyRename={this.props.handleFamilyRename}
+                        postMessage={this.props.postMessage} />}
                 {tabPosition === 2 && <TabContainer>Item three</TabContainer>}
             </div >
         )
