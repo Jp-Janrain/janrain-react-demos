@@ -136,8 +136,7 @@ export class FamilyCard extends Component {
               isLoadingMembers={this.state.isLoadingMembers}
               isHeadOf={o => o.relationTypeCode === "IS_HEAD_OF"}
               isMemberOf={o => o.relationTypeCode === "IS_MEMBER_OF"}
-              handleUpdateInfo={this.handleUpdateInfo}
-              handleFamilyRename={this.props.handleFamilyRename} />
+              handleUpdateInfo={this.handleUpdateInfo}/>
           </CardContent>
         </Collapse>
         <FamilyRenameDialog

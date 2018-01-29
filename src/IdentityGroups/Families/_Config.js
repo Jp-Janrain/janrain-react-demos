@@ -2,42 +2,42 @@
 
 export const FAMILY_INFO_FORM_ATTRIBUTES = [
     {
-        attribute: 'familyAddress.phone',
+        attributePath: 'familyAddress.phone',
         label: 'Phone Number',
         customValidation: null
     },
     {
-        attribute: 'familyAddress.email',
+        attributePath: 'familyAddress.email',
         label: 'Family Email',
         customValidation: null
     },
     {
-        attribute: 'familyAddress.address1',
+        attributePath: 'familyAddress.address1',
         label: 'Address 1',
         customValidation: null
     },
     {
-        attribute: 'familyAddress.address2',
+        attributePath: 'familyAddress.address2',
         label: 'Address 2',
         customValidation: null
     },
     {
-        attribute: 'familyAddress.city',
+        attributePath: 'familyAddress.city',
         label: 'City',
         customValidation: null
     },
     {
-        attribute: 'familyAddress.region',
+        attributePath: 'familyAddress.region',
         label: 'State',
         customValidation: null
     },
     {
-        attribute: 'familyAddress.country',
+        attributePath: 'familyAddress.country',
         label: 'Country',
         customValidation: null
     },
     {
-        attribute: 'familyAddress.zip',
+        attributePath: 'familyAddress.zip',
         label: 'Postal Code',
         customValidation: null
     },

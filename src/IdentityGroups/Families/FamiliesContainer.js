@@ -69,7 +69,7 @@ export class FamiliesContainer extends Component {
                         key={familyObject.family.uuid}
                         family={familyObject.family}
                         relations={familyObject.relations}
-                        handleFamilyRename={this.handleFamilyRename}
+                        handleUpdateInfo={this.handleUpdateInfo}
                     />
                 )
             }, this))

@@ -17,7 +17,7 @@ export class FamilyContent extends Component {
     constructor() {
         super()
         this.state = {
-            tabPosition: 0
+            tabPosition: 1
         }
     }
 
