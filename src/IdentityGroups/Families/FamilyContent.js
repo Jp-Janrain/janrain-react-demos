@@ -43,15 +43,15 @@ export class FamilyContent extends Component {
 
                 {tabPosition === 0 &&
                     <FamilyMembers
-                        isLoading={this.props.isLoadingMembers}
-                        familyMembers={this.props.familyMembers}
+                        isLoading={this.props.members.isLoading}
+                        familyMembers={this.props.members.data}
                         isHeadOf={this.props.isHeadOf}
-                        familyUUID={this.props.familyInfo.uuid} />}
+                        familyUUID={this.props.info.data.uuid} />}
 
                 {tabPosition === 1 &&
                     <FamilyInfo
-                        isLoading={this.props.isLoadingInfo}
-                        familyInfo={this.props.familyInfo}
+                        isLoading={this.props.info.isLoading}
+                        familyInfo={this.props.info.data}
                         isHeadOf={this.props.isHeadOf}
                         isMemberOf={this.props.isMemberOf}
                         handleUpdateInfo={this.props.handleUpdateInfo}

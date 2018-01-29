@@ -39,7 +39,7 @@ export class FamiliesContainer extends Component {
         })
     }
 
-    handleFamilyRename = (familyObj) => {
+    handleRename = (familyObj) => {
         const families = this.state.families
         const foundIndex = families.findIndex(x => x.family.uuid === familyObj.uuid)
         families[foundIndex].family = familyObj
@@ -69,7 +69,7 @@ export class FamiliesContainer extends Component {
                         key={familyObject.family.uuid}
                         family={familyObject.family}
                         relations={familyObject.relations}
-                        handleUpdateInfo={this.handleUpdateInfo}
+                        handleRename={this.handleRename}
                     />
                 )
             }, this))

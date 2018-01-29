@@ -7,7 +7,6 @@ import { flattenNestedKeys } from '../IdentityGroupsAPI';
 import { FAMILY_INFO_FORM_ATTRIBUTES } from './_Config';
 import ControlledForm from '../../Layout/ControlledForm'
 import { NotificationSnackbar } from '../../Layout/NotificationSnackbar';
-import { ErrorMessageWithRedirect } from '../../Layout/ErrorMessageWithRedirect';
 
 export class FamilyInfoForm extends Component {
     state = {
@@ -25,8 +24,8 @@ export class FamilyInfoForm extends Component {
     }
     handleUpdateFamilyInfoSuccess = (data) => {
         const notifications = this.state.notifications.concat("Family successfully updated")
+        this.setState({ loading: false, notifications })
         this.props.handleUpdateInfo(data)
-        this.setState({ loading: false, notification })
     }
     handleUpdateFamilyInfoError = (errorMessage) => {
         const notifications = this.state.notifications.concat("ERROR UPDATING FAMILY DETAILS: " + errorMessage)
