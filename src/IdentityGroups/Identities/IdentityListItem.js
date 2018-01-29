@@ -10,12 +10,8 @@ import DraftsIcon from 'material-ui-icons/Drafts';
 import SendIcon from 'material-ui-icons/Send';
 import DeleteIcon from 'material-ui-icons/Delete';
 import { MoreIconMenu } from '../../Layout/MoreIconMenu';
-
-
-const realationshipTypes = {
-    IS_HEAD_OF: 'Admin',
-    IS_MEMBER_OF: 'Member',
-}
+import { RELATIONSHIP_TYPES } from '../Families/_Config';
+import {InvitePendingMenu} from './InvitePendingMenu'
 
 export class IdentityListItem extends Component {
     constructor() {
@@ -36,22 +32,7 @@ export class IdentityListItem extends Component {
     render() {
         const { props } = this
 
-        const rightIconMenu = (
-            <MoreIconMenu>
-                <MenuItem onClick={this.handleMenuClose}>
-                    <ListItemIcon><SendIcon /></ListItemIcon>
-                    <ListItemText inset primary="Resend Invite" />
-                </MenuItem>
-                <MenuItem onClick={this.handleMenuClose}>
-                    <ListItemIcon><DraftsIcon /></ListItemIcon>
-                    <ListItemText inset primary="Edit Invite" />
-                </MenuItem>
-                <MenuItem onClick={this.handleMenuClose}>
-                    <ListItemIcon><DeleteIcon /></ListItemIcon>
-                    <ListItemText inset primary="Delete Invite" />
-                </MenuItem>
-            </MoreIconMenu>
-        )
+        const rightIconMenu = (<InvitePendingMenu />)
 
         return (
             <ListItem>
@@ -60,7 +41,8 @@ export class IdentityListItem extends Component {
                 </ListItemAvatar>
                 <ListItemText
                     primary={props.user.givenName + ' ' + props.user.familyName}
-                    secondary={props.relations.map(({ code }) => realationshipTypes[code])} />
+                    secondary={props.relations.map(({ code }) => RELATIONSHIP_TYPES
+                    [code])} />
                 <ListItemSecondaryAction>
                     {props.canEdit ? rightIconMenu : null}
                 </ListItemSecondaryAction>

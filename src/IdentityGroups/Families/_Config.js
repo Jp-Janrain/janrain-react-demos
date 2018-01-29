@@ -1,5 +1,10 @@
 // Add support to list relationship types, and available actions
 
+export const RELATIONSHIP_TYPES = {
+    IS_HEAD_OF: 'Admin',
+    IS_MEMBER_OF: 'Member',
+}
+
 export const FAMILY_INFO_FORM_ATTRIBUTES = [
     {
         attributePath: 'familyAddress.phone',

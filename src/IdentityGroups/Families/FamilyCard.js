@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Card from 'material-ui/Card';
 import { keepIdentityGroupsTokenActive } from '../IdentityGroupsAPI';
-import { FamilyContent } from './FamilyContent';
+import { FamilyCardContent } from './FamilyCardContent';
 import { getFamilyInfo, getFamilyMembers, updateFamilyInfo } from './FamiliesAPI';
 import CardHeader from 'material-ui/Card/CardHeader';
 import CardContent from 'material-ui/Card/CardContent';
@@ -109,8 +109,7 @@ export class FamilyCard extends Component {
                   onClick={this.expandCard}
                   aria-expanded={this.state.expanded}
                   aria-label="Show more"
-                  style={this.state.expanded ? { transform: 'rotate(180deg)' } : null}
-                >
+                  style={this.state.expanded ? { transform: 'rotate(180deg)' } : null} >
                   <ExpandMoreIcon />
                 </IconButton>
               </ListItem>
@@ -118,7 +117,7 @@ export class FamilyCard extends Component {
           </CardActions>
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent >
-              <FamilyContent key={family.uuid}
+              <FamilyCardContent key={family.uuid}
                 info={this.state.info}
                 members={this.state.members}
                 isHeadOf={o => o.relationTypeCode === "IS_HEAD_OF"}
