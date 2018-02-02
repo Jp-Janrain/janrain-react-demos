@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import ListItem from 'material-ui/List/ListItem';
 import { Avatar } from 'material-ui';
 import { MenuItem } from 'material-ui/Menu';
@@ -32,7 +34,7 @@ export class MembersListItem extends Component {
     render() {
         const { props } = this
 
-        const rightIconMenu = (<MembersListMenu status={this.props.status}/>)
+        const rightIconMenu = (<MembersListMenu status={props.status}/>)
 
         return (
             <ListItem>
@@ -41,11 +43,20 @@ export class MembersListItem extends Component {
                 </ListItemAvatar>
                 <ListItemText
                     primary={props.user.givenName + ' ' + props.user.familyName}
-                    secondary={this.props.status} />
+                    secondary={props.status} />
                 <ListItemSecondaryAction>
                     {props.canEdit ? rightIconMenu : null}
                 </ListItemSecondaryAction>
             </ListItem>
         )
     }
+}
+
+MembersListItem.propTypes = {
+    user: PropTypes.shape({
+        givenName: PropTypes.string.isRequired,
+        familyName: PropTypes.string.isRequired,
+    }).isRequired,
+    status: PropTypes.oneOf(['active', 'pending']).isRequired,
+    canEdit: PropTypes.bool.isRequired,
 }
