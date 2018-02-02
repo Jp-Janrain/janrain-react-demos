@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import { LinearProgress } from 'material-ui'
 
 import { FamilyCard } from './FamilyCard'
-import { keepIdentityGroupsTokenActive } from '../IdentityGroupsAPI';
 import GridList from 'material-ui/GridList';
 import { currentUserUUID } from '../../Auth/AuthService';
 import { getUsersFamilies } from './FamiliesAPI';
 import GridListTile from 'material-ui/GridList/GridListTile';
-import { ErrorMessageWithRedirect } from '../../Layout/ErrorMessageWithRedirect';
 
 const style = {
     gridList: {maxWidth: '1100px', width: '100%' }

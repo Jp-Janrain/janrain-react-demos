@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { TextField } from 'material-ui'
 import Button from 'material-ui/Button';
-import CircularProgress from 'material-ui/Progress/CircularProgress';
 import LinearProgress from 'material-ui/Progress/LinearProgress';
 
 class ControlledForm extends Component {

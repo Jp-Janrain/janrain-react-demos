@@ -1,12 +1,9 @@
 
 import React, { Component } from 'react'
-import { TextField } from 'material-ui'
-import Button from 'material-ui/Button';
 import { updateFamilyInfo } from './FamiliesAPI';
 import { flattenNestedKeys } from '../IdentityGroupsAPI';
 import { FAMILY_INFO_FORM_ATTRIBUTES } from './_Config';
 import ControlledForm from '../../Layout/ControlledForm'
-import { NotificationSnackbar } from '../../Layout/NotificationSnackbar';
 
 export class FamilyInfoForm extends Component {
     state = {

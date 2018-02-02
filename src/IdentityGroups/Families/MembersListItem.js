@@ -3,17 +3,10 @@ import PropTypes from 'prop-types';
 
 import ListItem from 'material-ui/List/ListItem';
 import { Avatar } from 'material-ui';
-import { MenuItem } from 'material-ui/Menu';
 import ListItemAvatar from 'material-ui/List/ListItemAvatar';
 import ListItemSecondaryAction from 'material-ui/List/ListItemSecondaryAction';
 import ListItemText from 'material-ui/List/ListItemText';
-import ListItemIcon from 'material-ui/List/ListItemIcon';
-import DraftsIcon from 'material-ui-icons/Drafts';
-import SendIcon from 'material-ui-icons/Send';
-import DeleteIcon from 'material-ui-icons/Delete';
-import { MoreIconMenu } from '../../Layout/MoreIconMenu';
-import { RELATIONSHIP_TYPES } from '../Families/_Config';
-import {MembersListMenu} from './MembersListMenu'
+import { MembersListMenu } from './MembersListMenu'
 
 export class MembersListItem extends Component {
     constructor() {
@@ -34,7 +27,7 @@ export class MembersListItem extends Component {
     render() {
         const { props } = this
 
-        const rightIconMenu = (<MembersListMenu status={props.status}/>)
+        const rightIconMenu = (<MembersListMenu status={props.status} />)
 
         return (
             <ListItem>

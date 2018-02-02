@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from 'material-ui/Button';
 import Snackbar from 'material-ui/Snackbar';
 import Fade from 'material-ui/transitions/Fade';
 import IconButton from 'material-ui/IconButton';
