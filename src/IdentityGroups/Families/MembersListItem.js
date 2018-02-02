@@ -8,7 +8,8 @@ import ListItemSecondaryAction from 'material-ui/List/ListItemSecondaryAction';
 import ListItemText from 'material-ui/List/ListItemText';
 import { MembersListMenu } from './MembersListMenu'
 
-export class MembersListItem extends Component {
+export default class MembersListItem extends Component {
+
     constructor() {
         super()
         this.state = {
@@ -16,13 +17,6 @@ export class MembersListItem extends Component {
             menuAnchorEl: null
         }
     }
-    handleMenuOpen = (e) => {
-        this.setState({ menuAnchorEl: e.currentTarget })
-    }
-    handleMenuClose = () => {
-        this.setState({ menuAnchorEl: null });
-    }
-
 
     render() {
         const { props } = this
@@ -43,13 +37,15 @@ export class MembersListItem extends Component {
             </ListItem>
         )
     }
+
+    propTypes = {
+        user: PropTypes.shape({
+            givenName: PropTypes.string.isRequired,
+            familyName: PropTypes.string.isRequired,
+        }).isRequired,
+        status: PropTypes.oneOf(['active', 'pending']).isRequired,
+        canEdit: PropTypes.bool.isRequired,
+    }
 }
 
-MembersListItem.propTypes = {
-    user: PropTypes.shape({
-        givenName: PropTypes.string.isRequired,
-        familyName: PropTypes.string.isRequired,
-    }).isRequired,
-    status: PropTypes.oneOf(['active', 'pending']).isRequired,
-    canEdit: PropTypes.bool.isRequired,
-}
+
