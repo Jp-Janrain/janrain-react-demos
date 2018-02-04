@@ -17,7 +17,7 @@ export class FamilyCardContent extends Component {
     constructor() {
         super()
         this.state = {
-            tabPosition: 1
+            tabPosition: 0
         }
     }
 
@@ -36,12 +36,18 @@ export class FamilyCardContent extends Component {
                     textColor="primary"
                     fullWidth
                     centered >
-                    <Tab icon={<Icon className="material-icons">phone</Icon>} label="Contact Info" />
                     <Tab icon={<Icon className="material-icons">people</Icon>} label="Members" />
-                    <Tab icon={<Icon className="material-icons">devices_other</Icon>} label="Devices" />
+                    <Tab icon={<Icon className="material-icons">phone</Icon>} label="Contact Info" />
                 </Tabs>
 
                 {tabPosition === 0 &&
+                    <MembersTab
+                        isLoading={this.props.members.isLoading}
+                        familyMembers={this.props.members.data}
+                        isHeadOf={this.props.isHeadOf}
+                        familyUUID={this.props.info.data.uuid} />}
+
+                {tabPosition === 1 &&
                     <FamilyInfo
                         isLoading={this.props.info.isLoading}
                         familyInfo={this.props.info.data}
@@ -51,14 +57,6 @@ export class FamilyCardContent extends Component {
                         handleFamilyRename={this.props.handleFamilyRename}
                         postMessage={this.props.postMessage} />}
 
-                {tabPosition === 1 &&
-                    <MembersTab
-                        isLoading={this.props.members.isLoading}
-                        familyMembers={this.props.members.data}
-                        isHeadOf={this.props.isHeadOf}
-                        familyUUID={this.props.info.data.uuid} />}
-
-                {tabPosition === 2 && <TabContainer>Item three</TabContainer>}
             </div >
         )
     }
