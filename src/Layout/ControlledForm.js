@@ -14,7 +14,6 @@ class ControlledForm extends Component {
             formValue[field.attributePath] = field.defaultValue
         });
         this.state = {
-            editingEnabled: !this.props.loading,
             formValue: formValue,
             formHasChanged: false,
         }
@@ -36,26 +35,32 @@ class ControlledForm extends Component {
         } else {
             this.setState({ formHasChanged: true })
         }
+        this.props.onUpdate ? this.props.onUpdate(this.state.formValue) : null
+    }
+    handleCancelAction = () => {
+        this.handleResetForm()
+        this.props.onCancel ? this.props.onCancel(this.formValueInitialState) : null
     }
     handleSaveAction = () => {
         this.props.onSave(this.state.formValue)
     }
     render() {
+        const {props, state} = this
         const actions = []
-            if (this.state.formHasChanged && !this.props.loading) {
+            if (this.state.formHasChanged && !props.loading && !props.hideDynamicButtons) {
             actions.push(
                 <Button color='primary' raised onClick={this.handleSaveAction} key='save' >Save</Button>,
-                <Button color='secondary' onClick={this.handleResetForm} key='cancel' >Cancel</Button>)
+                <Button color='secondary' onClick={this.handleCancelAction} key='cancel' >Cancel</Button>)
         }
         const fields = []
-        fields.push(this.props.fieldDefinitions.map((field) => {
+        fields.push(props.fieldDefinitions.map((field) => {
             return (
                 <TextField
                     key={field.attributePath}
                     id={field.attributePath}
-                    label={field.label}
+                    label={field.label ? field.label : field.attributePath}
                     value={this.state.formValue[field.attributePath] }
-                    disabled={!this.props.editingEnabled || this.props.loading}
+                    disabled={props.loading}
                     fullWidth
                     onChange={(e) => { this.handleUpdateField(e, field.customValidation) }}
                 />)
@@ -65,7 +70,7 @@ class ControlledForm extends Component {
                 {fields}
                 <br /><br />
                 <div align="center">{actions}</div>
-                {this.props.loading ? <LinearProgress /> : null}
+                {props.loading ? <LinearProgress /> : null}
             </div>
 
         )
@@ -78,8 +83,10 @@ ControlledForm.propTypes = {
         label: PropTypes.string,
         customValidation: PropTypes.func
     })),
-    onSave: PropTypes.func.isRequired,
+    onSave: PropTypes.func,
+    onUpdate: PropTypes.func,
     onCancel: PropTypes.func,
+    hideDynamicButtons: PropTypes.bool,
 }
 
 export default ControlledForm
