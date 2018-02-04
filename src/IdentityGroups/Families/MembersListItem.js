@@ -21,7 +21,7 @@ export default class MembersListItem extends Component {
     render() {
         const { props } = this
 
-        const rightIconMenu = (<MembersListMenu status={props.status} />)
+        const rightIconMenu = (<MembersListMenu status={props.status} user={this.props.user} />)
 
         return (
             <ListItem>
