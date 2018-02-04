@@ -3,10 +3,11 @@ import { MoreIconMenu } from '../../Layout/MoreIconMenu';
 import MenuItem from 'material-ui/Menu/MenuItem';
 import ListItemIcon from 'material-ui/List/ListItemIcon';
 import ListItemText from 'material-ui/List/ListItemText';
-import DraftsIcon from 'material-ui-icons/Drafts';
+// import DraftsIcon from 'material-ui-icons/Drafts';
 import DeleteIcon from 'material-ui-icons/Delete';
 import Settings from 'material-ui-icons/Settings';
 import MembersListMenuResendInvite from './MembersListMenuResendInvite';
+import MembersListMenuEditInvite from './MembersListMenuEditInvite';
 
 export const MembersListMenu = (props) => {
     if (props.status === 'pending') {
@@ -15,10 +16,9 @@ export const MembersListMenu = (props) => {
                 <MembersListMenuResendInvite
                     user={props.user}
                     closeMoreIconMenu={props.closeMoreIconMenu} />
-                <MenuItem onClick={this.handleMenuClose}>
-                    <ListItemIcon><DraftsIcon /></ListItemIcon>
-                    <ListItemText inset primary="Edit Invite" />
-                </MenuItem>
+                <MembersListMenuEditInvite
+                    user={props.user}
+                    closeMoreIconMenu={props.closeMoreIconMenu} />
                 <MenuItem onClick={this.handleMenuClose}>
                     <ListItemIcon><DeleteIcon /></ListItemIcon>
                     <ListItemText inset primary="Delete Invite" />
