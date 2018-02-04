@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import IconButton from 'material-ui/IconButton/IconButton';
 import Popover from 'material-ui/Popover/Popover';
 import MoreVertIcon from 'material-ui-icons/MoreVert';
@@ -19,6 +21,7 @@ export class MoreIconMenu extends Component {
         this.setState({ anchorEl: null })
     }
     render() {
+        const {state, props} = this
         return (
             <div>
                 <IconButton
@@ -27,14 +30,19 @@ export class MoreIconMenu extends Component {
                 </IconButton>
                 <Popover
                     id="user-menu"
-                    anchorEl={this.state.anchorEl}
-                    open={Boolean(this.state.anchorEl)}
+                    anchorEl={state.anchorEl}
+                    open={Boolean(state.anchorEl)}
                     onClose={this.handleClose}
-                    onClick={this.handleClose}
+                    onClick={props.closeOnClick !== false ? this.handleClose : null}
                 >
                     {this.props.children}
                 </Popover>
             </div>
         )
     }
+}
+
+MoreIconMenu.propTypes = {
+    children: PropTypes.node.isRequired,
+    closeOnClick: PropTypes.bool,
 }
