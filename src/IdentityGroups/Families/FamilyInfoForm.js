@@ -42,7 +42,6 @@ export class FamilyInfoForm extends Component {
                 <ControlledForm
                     fieldDefinitions={fields}
                     onSave={this.handleSaveAction}
-                    editingEnabled={this.props.canEdit}
                     loading={this.state.loading} />
             </div>
 
