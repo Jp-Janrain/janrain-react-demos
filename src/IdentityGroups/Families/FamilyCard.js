@@ -20,11 +20,11 @@ export class FamilyCard extends Component {
     super()
     this.state = {
       info: {
-        isLoading: false,
+        isLoading: true,
         data: {},
       },
       members: {
-        isLoading: false,
+        isLoading: true,
         data: {},
       },
       expandend: false,
