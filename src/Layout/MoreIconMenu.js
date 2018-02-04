@@ -21,7 +21,12 @@ export class MoreIconMenu extends Component {
         this.setState({ anchorEl: null })
     }
     render() {
-        const {state, props} = this
+        const { state, props } = this
+        const { children } = this.props
+
+        var childrenWithProps = React.Children.map(children, child =>
+            React.cloneElement(child, { closeMoreIconMenu: this.handleClose }))
+
         return (
             <div>
                 <IconButton
@@ -35,7 +40,7 @@ export class MoreIconMenu extends Component {
                     onClose={this.handleClose}
                     onClick={props.closeOnClick !== false ? this.handleClose : null}
                 >
-                    {this.props.children}
+                    {childrenWithProps}
                 </Popover>
             </div>
         )

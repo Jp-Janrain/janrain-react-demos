@@ -12,7 +12,9 @@ export const MembersListMenu = (props) => {
     if (props.status === 'pending') {
         return (
             <MoreIconMenu closeOnClick={false}>
-                <MembersListMenuResendInvite user={props.user} />
+                <MembersListMenuResendInvite
+                    user={props.user}
+                    closeMoreIconMenu={props.closeMoreIconMenu} />
                 <MenuItem onClick={this.handleMenuClose}>
                     <ListItemIcon><DraftsIcon /></ListItemIcon>
                     <ListItemText inset primary="Edit Invite" />

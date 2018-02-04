@@ -20,21 +20,29 @@ class MembersListMenuResendInvite extends Component {
             dialogIsOpen: false
         }
     }
-    handleDialogState = () => {
-        this.setState({ dialogIsOpen: !this.state.dialogIsOpen })
+    closeDialog = () => {
+        this.setState({ dialogIsOpen: false })
+        this.props.closeMoreIconMenu()
+    }
+    openDialog = () => {
+        this.setState({ dialogIsOpen: true })
+    }
+    resendInvite = () => {
+        this.closeDialog()
+        // Make API call to resend invite email is currently unsupported behavior
     }
 
     render() {
         const { user } = this.props
         return (
             <div>
-                <MenuItem onClick={this.handleDialogState}>
+                <MenuItem onClick={this.openDialog}>
                     <ListItemIcon><SendIcon /></ListItemIcon>
                     <ListItemText inset primary="Resend Invite" />
                 </MenuItem>
                 <Dialog
                     open={this.state.dialogIsOpen}
-                    onClose={this.handleDialogState} >
+                    onClose={this.closeDialog} >
                     <DialogTitle>Please Confirm</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
@@ -42,8 +50,8 @@ class MembersListMenuResendInvite extends Component {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleDialogState} raised color="primary"> Resend Invite </Button>
-                        <Button onClick={this.handleDialogState} color="primary" autoFocus>Cancel</Button>
+                        <Button onClick={this.resendInvite} raised color="primary"> Resend Invite </Button>
+                        <Button onClick={this.closeDialog} color="primary" autoFocus>Cancel</Button>
                     </DialogActions>
                 </Dialog>
             </div>
