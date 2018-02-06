@@ -95,25 +95,14 @@ export class FamilyCard extends Component {
 
     return (
       <div>
+      <br />
         <Card>
           <CardHeader
             action={<FamilyCardMenu handleOpenRenameDialog={this.handleOpenRenameDialog} />}
             title={family.familyName}
             subheader={family.description} />
           <CardActions disableActionSpacing onClick={this.expandCard} >
-            <List>
-              <ListItem button>
-                <IconButton
-                  onClick={this.expandCard}
-                  aria-expanded={this.state.expanded}
-                  aria-label="Show more"
-                  style={this.state.expanded ? { transform: 'rotate(180deg)' } : null} >
-                  <ExpandMoreIcon />
-                </IconButton>
-              </ListItem>
-            </List>
           </CardActions>
-          <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent >
               <FamilyCardContent key={family.uuid}
                 info={this.state.info}
@@ -123,13 +112,11 @@ export class FamilyCard extends Component {
                 handleUpdateInfo={this.handleUpdateInfo}
                 postMessage={this.props.postMessage} />
             </CardContent>
-          </Collapse>
           <FamilyRenameDialog
             isOpen={this.state.renameDialogOpen}
             familyInfo={this.state.info.data}
             handleCloseRenameDialog={this.handleCloseRenameDialog}
             handleRenameSubmit={this.handleRenameSubmit} />
-
         </Card>
       </div>
     )
