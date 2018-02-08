@@ -10,6 +10,7 @@ import { MembersInviteDialog } from './MembersInviteDialog';
 import { inviteFamilyMember } from './FamiliesAPI';
 import Button from 'material-ui/Button/Button';
 import { RELATIONSHIP_TYPES } from './_Config';
+import MembersList from './MembersList';
 
 export class MembersTab extends Component {
     constructor() {
@@ -59,39 +60,10 @@ export class MembersTab extends Component {
                     <Button onClick={this.openInviteDialog} key='invite'>Invite Members</Button>)
             }
 
-            const members = {}
-            const membersList = []
-            Object.entries(RELATIONSHIP_TYPES).map(([relationshipType, relationshipLabel]) => {
-                members[relationshipType] = []
-                this.props.familyMembers.map((familyMember, i) => {
-                    const user = familyMember.user
-                    familyMember.relations.map((relationship) => {
-                        if (relationship.code === relationshipType) {
-                            members[relationshipType].push(
-                                <MembersListItem
-                                    key={i}
-                                    user={user}
-                                    relations={familyMember.relations}
-                                    status={relationship.status}
-                                    // Below test would work if members list returned uuids
-                                    // canEdit={!isCurrentUser(user.uuid) && this.props.isHeadOf} />
-                                    canEdit={true} />
-                            )
-                        }
-                    })
-                })
-                membersList.push(
-                    <List>
-                        {relationshipLabel+ 's'}
-                        {members[relationshipType]}
-                    </List>
-                )
-            })
-
             return (
 
                 <div>
-                    {membersList}
+                    <MembersList members={this.props.familyMembers} />
                     <div align="center">{membersActions}</div>
                     <MembersInviteDialog
                         isOpen={this.state.inviteDialogOpen}
