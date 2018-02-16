@@ -6,7 +6,8 @@ import { Avatar } from 'material-ui';
 import ListItemAvatar from 'material-ui/List/ListItemAvatar';
 import ListItemSecondaryAction from 'material-ui/List/ListItemSecondaryAction';
 import ListItemText from 'material-ui/List/ListItemText';
-import { MembersListMenu } from './MembersListMenu'
+import MemberMenuPending from './MemberMenuPending';
+import MemberMenuActive from './MemberMenuActive';
 
 export default class MembersListItem extends Component {
 
@@ -20,8 +21,10 @@ export default class MembersListItem extends Component {
 
     render() {
         const { props } = this
+        const { user } = props
 
-        const rightIconMenu = (<MembersListMenu status={props.status} user={this.props.user} />)
+        const rightIconMenu = (props.status === 'active' ?
+            <MemberMenuActive user={user} /> : <MemberMenuPending user={user} />)
 
         return (
             <ListItem>
