@@ -5,14 +5,9 @@ import { FamilyCardContent } from './FamilyCardContent';
 import { getFamilyInfo, getFamilyMembers, updateFamilyInfo } from './FamiliesAPI';
 import CardHeader from 'material-ui/Card/CardHeader';
 import CardContent from 'material-ui/Card/CardContent';
-import IconButton from 'material-ui/IconButton/IconButton';
-import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import CardActions from 'material-ui/Card/CardActions';
-import Collapse from 'material-ui/transitions/Collapse';
 import { FamilyRenameDialog } from './FamilyRenameDialog';
 import { FamilyCardMenu } from './FamilyCardMenu';
-import List from 'material-ui/List/List';
-import ListItem from 'material-ui/List/ListItem';
 
 
 export class FamilyCard extends Component {

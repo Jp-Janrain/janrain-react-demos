@@ -3,15 +3,6 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import Icon from 'material-ui/Icon';
 import { FamilyInfo } from './FamilyInfo';
 import { MembersTab } from './MembersTab';
-import Typography from 'material-ui/Typography/Typography';
-
-function TabContainer(props) {
-    return (
-        <Typography component="div" style={{ padding: 8 * 3 }}>
-            {props.children}
-        </Typography>
-    );
-}
 
 export class FamilyCardContent extends Component {
     constructor() {

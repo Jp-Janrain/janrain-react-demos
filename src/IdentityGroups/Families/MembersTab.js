@@ -3,13 +3,9 @@
 
 import React, { Component } from 'react';
 import { CircularProgress } from 'material-ui';
-import MembersListItem from './MembersListItem';
-import List from 'material-ui/List';
-// import { isCurrentUser } from '../../Auth/AuthService';
 import { MembersInviteDialog } from './MembersInviteDialog';
 import { inviteFamilyMember } from './FamiliesAPI';
 import Button from 'material-ui/Button/Button';
-import { RELATIONSHIP_TYPES } from './_Config';
 import MembersList from './MembersList';
 
 export class MembersTab extends Component {
