@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import MoreIconMenu from '../../Layout/MoreIconMenu';
 import MemberMenuItemResendInvite from './MemberMenuItemResendInvite';
 import MemberMenuItemEditInvite from './MemberMenuItemEditInvite';
-import DeleteIcon from 'material-ui-icons/Delete';
-import { MenuItem } from 'material-ui';
-import { ListItemIcon, ListItemText } from 'material-ui/List';
+import MemberMenuItemDeleteInvite from './MemberMenuItemDeleteInvite';
 
 const MemberMenuPending = props => {
     return (
@@ -17,10 +15,9 @@ const MemberMenuPending = props => {
             <MemberMenuItemEditInvite
                 user={props.user}
                 closeMoreIconMenu={props.closeMoreIconMenu} />
-            <MenuItem onClick={props.closeMoreIconMenu}>
-                <ListItemIcon><DeleteIcon /></ListItemIcon>
-                <ListItemText inset primary="Delete Invite" />
-            </MenuItem>
+            <MemberMenuItemDeleteInvite
+                user={props.user}
+                closeMoreIconMenu={props.closeMoreIconMenu} />
         </MoreIconMenu>
     );
 };
