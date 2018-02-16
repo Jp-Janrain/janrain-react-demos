@@ -6,6 +6,17 @@ import { RELATIONSHIP_TYPES } from './_Config';
 import List from 'material-ui/List/List';
 
 
+const createMembersListItem = (member, status) => (
+    <MembersListItem
+        // key={}
+        user={member}
+        status={status}
+        // Below test would work if members list returned uuids
+        // canEdit={!isCurrentUser(user.uuid) && this.props.isHeadOf} />
+        // Instead canEdit is always true
+        canEdit={true} />
+)
+
 class MembersList extends PureComponent {
     render() {
 
@@ -18,22 +29,14 @@ class MembersList extends PureComponent {
                 member.relations.map((relationship) => {
                     if (relationship.code === relationshipType) {
                         members[relationshipType].push(
-                            <MembersListItem
-                                key={i}
-                                user={user}
-                                relations={member.relations}
-                                status={relationship.status}
-                                // Below test would work if members list returned uuids
-                                // canEdit={!isCurrentUser(user.uuid) && this.props.isHeadOf} />
-                                // Instead canEdit is always true
-                                canEdit={true} />
+                            createMembersListItem(user, relationship.status)
                         )
                     }
                 })
             })
             membersList.push(
                 <List>
-                    {relationshipLabel+ 's'}
+                    {relationshipLabel + 's'}
                     {members[relationshipType]}
                 </List>
             )
@@ -54,11 +57,8 @@ MembersList.propTypes = {
             code: PropTypes.string.isRequired,
             status: PropTypes.string.isRequired,
         })),
-        user: PropTypes.shape({
-          familyName: PropTypes.string.isRequired,
-          givenName: PropTypes.string.isRequired,
-        }),
-    }),),
+        user: PropTypes.object.isRequired,
+    }), ),
 
 };
 

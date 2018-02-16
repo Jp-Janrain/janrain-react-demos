@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types';
+
 import { MoreIconMenu } from '../../Layout/MoreIconMenu';
 import MenuItem from 'material-ui/Menu/MenuItem';
 import ListItemIcon from 'material-ui/List/ListItemIcon';
@@ -19,7 +21,7 @@ export const MembersListMenu = (props) => {
                 <MembersListMenuEditInvite
                     user={props.user}
                     closeMoreIconMenu={props.closeMoreIconMenu} />
-                <MenuItem onClick={this.handleMenuClose}>
+                <MenuItem onClick={props.closeMoreIconMenu}>
                     <ListItemIcon><DeleteIcon /></ListItemIcon>
                     <ListItemText inset primary="Delete Invite" />
                 </MenuItem>
@@ -27,7 +29,7 @@ export const MembersListMenu = (props) => {
         )
     } else {
         return (
-            <MoreIconMenu closeOnClick={false}>
+            <MoreIconMenu closeOnClick={true}>
                 <MenuItem onClick={this.handleMenuClose}>
                     <ListItemIcon><Settings /></ListItemIcon>
                     <ListItemText inset primary="Edit Permissions" />
@@ -40,3 +42,10 @@ export const MembersListMenu = (props) => {
         )
     }
 }
+
+MembersListMenu.propTypes = {
+    user: PropTypes.object.isRequired,
+    closeMoreIconMenu: PropTypes.func.isRequired,
+};
+
+export default MembersListMenu;
