@@ -11,14 +11,6 @@ import MemberMenuActive from './MemberMenuActive';
 
 export default class MembersListItem extends Component {
 
-    constructor() {
-        super()
-        this.state = {
-            menuIsOpen: false,
-            menuAnchorEl: null
-        }
-    }
-
     render() {
         const { props } = this
         const { user } = props
