@@ -22,10 +22,13 @@ class MembersList extends PureComponent {
 
         const members = {}
         const membersList = []
+        // eslint-disable-next-line
         Object.entries(RELATIONSHIP_TYPES).map(([relationshipType, relationshipLabel]) => {
             members[relationshipType] = []
+            // eslint-disable-next-line
             this.props.members.map((member, i) => {
                 const user = member.user
+                // eslint-disable-next-line
                 member.relations.map((relationship) => {
                     if (relationship.code === relationshipType) {
                         members[relationshipType].push(

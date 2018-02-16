@@ -45,6 +45,7 @@ class MemberMenuItemEditInvite extends Component {
         const { user } = this.props
         const userInfo = flattenNestedKeys(user)
         const fields = []
+        // eslint-disable-next-line
         Object.keys(userInfo).map((attributePath) => {
             fields.push({
                 defaultValue: userInfo[attributePath],

@@ -10,6 +10,7 @@ class ControlledForm extends Component {
         super(props)
 
         const formValue = {}
+        // eslint-disable-next-line
         props.fieldDefinitions.map((field) => {
             formValue[field.attributePath] = field.defaultValue
         });

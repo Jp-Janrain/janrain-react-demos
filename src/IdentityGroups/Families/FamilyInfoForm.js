@@ -32,6 +32,7 @@ export class FamilyInfoForm extends Component {
         const formAttributes = FAMILY_INFO_FORM_ATTRIBUTES
         const familyInfo = flattenNestedKeys(this.props.familyInfo)
         const fields = []
+        // eslint-disable-next-line
         formAttributes.map((field) => {
             field.defaultValue = familyInfo[field.attribute] ? familyInfo[field.attribute] : ''
             fields.push(field)

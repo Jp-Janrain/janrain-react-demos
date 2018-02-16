@@ -60,6 +60,7 @@ export class App extends Component {
 
     const notifications = []
     if (this.state.notifications) {
+      // eslint-disable-next-line
       this.state.notifications.map((notification) => {
         notifications.push(<NotificationSnackbar message={notification} />)
       })
