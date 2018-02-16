@@ -3,10 +3,10 @@
 
 import React, { Component } from 'react';
 import { CircularProgress } from 'material-ui';
-import { MembersInviteDialog } from './MembersInviteDialog';
 import { inviteFamilyMember } from './FamiliesAPI';
 import Button from 'material-ui/Button/Button';
 import MembersList from './MembersList';
+import MemberInviteDialog from './MemberInviteDialog';
 
 export class MembersTab extends Component {
     constructor() {
@@ -61,7 +61,7 @@ export class MembersTab extends Component {
                 <div>
                     <MembersList members={this.props.familyMembers} />
                     <div align="center">{membersActions}</div>
-                    <MembersInviteDialog
+                    <MemberInviteDialog
                         isOpen={this.state.inviteDialogOpen}
                         submitAction={this.handleInviteSubmit}
                         closeAction={this.closeInviteDialog} />

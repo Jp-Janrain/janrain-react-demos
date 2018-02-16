@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { Dialog, TextField, Checkbox } from 'material-ui';
 import Button from 'material-ui/Button';
 import DialogTitle from 'material-ui/Dialog/DialogTitle';
@@ -9,7 +11,7 @@ import ListItem from 'material-ui/List/ListItem';
 import FormGroup from 'material-ui/Form/FormGroup';
 import FormControlLabel from 'material-ui/Form/FormControlLabel';
 
-export const MembersInviteDialog = (props) => {
+const MemberInviteDialog = props => {
 
     const inviteDialogActions = [
         <Button
@@ -61,4 +63,12 @@ export const MembersInviteDialog = (props) => {
             <DialogActions>{inviteDialogActions}</DialogActions>
         </Dialog>
     )
-}
+};
+
+MemberInviteDialog.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    closeAction: PropTypes.func.isRequired,
+    submitAction: PropTypes.func.isRequired,
+};
+
+export default MemberInviteDialog;
