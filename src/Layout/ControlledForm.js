@@ -59,7 +59,7 @@ class ControlledForm extends Component {
                     key={field.attributePath}
                     id={field.attributePath}
                     label={field.label ? field.label : field.attributePath}
-                    value={this.state.formValue[field.attributePath] }
+                    value={state.formValue[field.attributePath] }
                     disabled={props.loading}
                     fullWidth
                     onChange={(e) => { this.handleUpdateField(e, field.customValidation) }}

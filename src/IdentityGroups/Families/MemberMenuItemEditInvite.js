@@ -7,7 +7,6 @@ import ListItemText from 'material-ui/List/ListItemText';
 import DraftsIcon from 'material-ui-icons/Drafts';
 import Dialog from 'material-ui/Dialog/Dialog';
 import DialogTitle from 'material-ui/Dialog/DialogTitle';
-import DialogContentText from 'material-ui/Dialog/DialogContentText';
 import DialogContent from 'material-ui/Dialog/DialogContent';
 import DialogActions from 'material-ui/Dialog/DialogActions';
 import Button from 'material-ui/Button/Button';
