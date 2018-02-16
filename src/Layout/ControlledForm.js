@@ -35,11 +35,11 @@ class ControlledForm extends Component {
         } else {
             this.setState({ formHasChanged: true })
         }
-        this.props.onUpdate ? this.props.onUpdate(this.state.formValue) : null
+        if (this.props.onUpdate) this.props.onUpdate(this.state.formValue)
     }
     handleCancelAction = () => {
         this.handleResetForm()
-        this.props.onCancel ? this.props.onCancel(this.formValueInitialState) : null
+        if (this.props.onCancel) this.props.onCancel(this.formValueInitialState)
     }
     handleSaveAction = () => {
         this.props.onSave(this.state.formValue)
