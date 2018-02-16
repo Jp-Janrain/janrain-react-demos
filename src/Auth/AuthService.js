@@ -39,11 +39,12 @@ export function login () {
 }
 
 export function logout () {
-  window.localStorage.clear()
   fetch(MIAA_AUTH_DOMAIN + '/session/end?'  + formurlencoded({
     id_token_hint: getIdToken(),
-    post_logout_redirect_uri: APP_DOMAIN })
+    post_logout_redirect_uri: APP_DOMAIN }),
+    {mode: 'no-cors'}
   )
+  window.localStorage.clear()
 }
 
 export function requireAuth(nextState, replace) {
@@ -53,7 +54,7 @@ export function requireAuth(nextState, replace) {
 }
 
 export function getIdToken() {
-  return localStorage.getItem(ID_TOKEN_KEY);
+  return localStorage.getItem('_id_token');
 }
 
 export function getAccessToken() {
