@@ -7,7 +7,7 @@ import MoreVertIcon from 'material-ui-icons/MoreVert';
 
 
 
-export class MoreIconMenu extends Component {
+class MoreIconMenu extends Component {
     constructor() {
         super()
         this.state = {
@@ -51,3 +51,5 @@ MoreIconMenu.propTypes = {
     children: PropTypes.node.isRequired,
     closeOnClick: PropTypes.bool,
 }
+
+export default MoreIconMenu

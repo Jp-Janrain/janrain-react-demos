@@ -1,5 +1,5 @@
 import React from 'react'
-import { MoreIconMenu } from '../../Layout/MoreIconMenu';
+import MoreIconMenu from '../../Layout/MoreIconMenu';
 import MenuItem from 'material-ui/Menu/MenuItem';
 import ListItemText from 'material-ui/List/ListItemText';
 
