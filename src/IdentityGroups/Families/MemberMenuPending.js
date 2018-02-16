@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import MoreIconMenu from '../../Layout/MoreIconMenu';
-import MembersListMenuResendInvite from './MembersListMenuResendInvite';
-import MembersListMenuEditInvite from './MembersListMenuEditInvite';
+import MemberMenuItemResendInvite from './MemberMenuItemResendInvite';
+import MemberMenuItemEditInvite from './MemberMenuItemEditInvite';
 import DeleteIcon from 'material-ui-icons/Delete';
 import { MenuItem } from 'material-ui';
 import { ListItemIcon, ListItemText } from 'material-ui/List';
@@ -11,10 +11,10 @@ import { ListItemIcon, ListItemText } from 'material-ui/List';
 const MemberMenuPending = props => {
     return (
         <MoreIconMenu closeOnClick={false}>
-            <MembersListMenuResendInvite
+            <MemberMenuItemResendInvite
                 user={props.user}
                 closeMoreIconMenu={props.closeMoreIconMenu} />
-            <MembersListMenuEditInvite
+            <MemberMenuItemEditInvite
                 user={props.user}
                 closeMoreIconMenu={props.closeMoreIconMenu} />
             <MenuItem onClick={props.closeMoreIconMenu}>

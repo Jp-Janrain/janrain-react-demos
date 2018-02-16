@@ -13,7 +13,7 @@ import DialogActions from 'material-ui/Dialog/DialogActions';
 import Button from 'material-ui/Button/Button';
 
 
-class MembersListMenuResendInvite extends Component {
+class MemberMenuItemResendInvite extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -59,11 +59,11 @@ class MembersListMenuResendInvite extends Component {
     }
 }
 
-MembersListMenuResendInvite.propTypes = {
+MemberMenuItemResendInvite.propTypes = {
     user: PropTypes.shape({
         givenName: PropTypes.string.isRequired,
         familyName: PropTypes.string.isRequired,
     })
 };
 
-export default MembersListMenuResendInvite;
+export default MemberMenuItemResendInvite;

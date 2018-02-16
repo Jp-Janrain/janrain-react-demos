@@ -15,7 +15,7 @@ import { flattenNestedKeys } from '../IdentityGroupsAPI';
 import ControlledForm from '../../Layout/ControlledForm';
 
 
-class MembersListMenuEditInvite extends Component {
+class MemberMenuItemEditInvite extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -84,8 +84,8 @@ class MembersListMenuEditInvite extends Component {
     }
 }
 
-MembersListMenuEditInvite.propTypes = {
+MemberMenuItemEditInvite.propTypes = {
     user: PropTypes.object.isRequired
 };
 
-export default MembersListMenuEditInvite;
+export default MemberMenuItemEditInvite;
