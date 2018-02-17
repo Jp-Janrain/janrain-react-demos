@@ -25,6 +25,7 @@ class ControlledForm extends Component {
     handleResetForm = () => {
         this.setState({ formValue: this.state.formValueInitial, formHasChanged: false })
     }
+
     handleUpdateField = (e, customValidation) => {
         // Provide handling for customValidations
         if (customValidation) { customValidation(e.target.value) }
@@ -37,13 +38,16 @@ class ControlledForm extends Component {
         })
         if (this.props.onUpdate) this.props.onUpdate(formValue)
     }
+
     handleCancelAction = () => {
         this.handleResetForm()
         if (this.props.onCancel) this.props.onCancel(this.state.formValueInitial)
     }
+
     handleSaveAction = () => {
         this.props.onSave(this.state.formValue)
     }
+
     render() {
         const { props, state } = this
         const actions = []
