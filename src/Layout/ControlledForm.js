@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import { TextField } from 'material-ui'
 import Button from 'material-ui/Button';
@@ -19,8 +20,8 @@ class ControlledForm extends Component {
             formHasChanged: false,
             formValueInitial: formValue,
         }
-        console.log(this.state.formValue === this.state.formValueInitial)
     }
+
     handleResetForm = () => {
         this.setState({ formValue: this.state.formValueInitial, formHasChanged: false })
     }
@@ -32,14 +33,8 @@ class ControlledForm extends Component {
         formValue[e.target.id] = e.target.value
         this.setState({
             formValue: formValue,
-            formHasChanged: !(formValue === this.state.formValueInitial)
+            formHasChanged: !_.isEqual(formValue, this.state.formValueInitial),
         })
-
-        if (formValue === this.state.formValueInitial) {
-            this.setState({ formHasChanged: false })
-        } else {
-            this.setState({ formHasChanged: true })
-        }
         if (this.props.onUpdate) this.props.onUpdate(formValue)
     }
     handleCancelAction = () => {
