@@ -45,6 +45,10 @@ class ControlledForm extends Component {
     }
 
     handleSaveAction = () => {
+        this.setState({
+            formValueInitial: this.state.formValue,
+            formHasChanged: false,
+        })
         this.props.onSave(this.state.formValue)
     }
 
