@@ -17,11 +17,12 @@ class ControlledForm extends Component {
         this.state = {
             formValue: formValue,
             formHasChanged: false,
+            formValueInitial: formValue,
         }
-        this.formValueInitialState = Object.assign({}, this.state.formValue)
+        console.log(this.state.formValue === this.state.formValueInitial)
     }
     handleResetForm = () => {
-        this.setState({ formValue: this.formValueInitialState, formHasChanged: false })
+        this.setState({ formValue: this.state.formValueInitial, formHasChanged: false })
     }
     handleUpdateField = (e, customValidation) => {
         // Provide handling for customValidations
@@ -29,26 +30,29 @@ class ControlledForm extends Component {
 
         const formValue = Object.assign({}, this.state.formValue)
         formValue[e.target.id] = e.target.value
-        this.setState({ formValue: formValue })
+        this.setState({
+            formValue: formValue,
+            formHasChanged: !(formValue === this.state.formValueInitial)
+        })
 
-        if (this.state.formValue === this.formValueInitialState) {
+        if (formValue === this.state.formValueInitial) {
             this.setState({ formHasChanged: false })
         } else {
             this.setState({ formHasChanged: true })
         }
-        if (this.props.onUpdate) this.props.onUpdate(this.state.formValue)
+        if (this.props.onUpdate) this.props.onUpdate(formValue)
     }
     handleCancelAction = () => {
         this.handleResetForm()
-        if (this.props.onCancel) this.props.onCancel(this.formValueInitialState)
+        if (this.props.onCancel) this.props.onCancel(this.state.formValueInitial)
     }
     handleSaveAction = () => {
         this.props.onSave(this.state.formValue)
     }
     render() {
-        const {props, state} = this
+        const { props, state } = this
         const actions = []
-            if (this.state.formHasChanged && !props.loading && !props.hideDynamicButtons) {
+        if (this.state.formHasChanged && !props.loading && !props.hideDynamicButtons) {
             actions.push(
                 <Button color='primary' raised onClick={this.handleSaveAction} key='save' >Save</Button>,
                 <Button color='secondary' onClick={this.handleCancelAction} key='cancel' >Cancel</Button>)
@@ -60,7 +64,7 @@ class ControlledForm extends Component {
                     key={field.attributePath}
                     id={field.attributePath}
                     label={field.label ? field.label : field.attributePath}
-                    value={state.formValue[field.attributePath] }
+                    value={state.formValue[field.attributePath]}
                     disabled={props.loading}
                     fullWidth
                     onChange={(e) => { this.handleUpdateField(e, field.customValidation) }}
