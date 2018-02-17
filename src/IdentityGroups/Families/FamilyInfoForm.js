@@ -34,7 +34,7 @@ export class FamilyInfoForm extends Component {
         const fields = []
         // eslint-disable-next-line
         formAttributes.map((field) => {
-            field.defaultValue = familyInfo[field.attribute] ? familyInfo[field.attribute] : ''
+            field.defaultValue = familyInfo[field.attributePath] ? familyInfo[field.attributePath] : ''
             fields.push(field)
         })
 
