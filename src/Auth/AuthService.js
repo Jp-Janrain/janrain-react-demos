@@ -27,7 +27,7 @@ export const getToken = (audience, scope) => {
 
 }
 
-export function login () {
+export function login() {
   const authPath = MIAA_AUTH_DOMAIN + '/auth?' + formurlencoded({
     response_type: 'id_token token',
     client_id: CAPTURE_CLIENT_ID,
@@ -38,12 +38,11 @@ export function login () {
   window.location.replace(authPath)
 }
 
-export function logout () {
-  fetch(MIAA_AUTH_DOMAIN + '/session/end?'  + formurlencoded({
+export function logout() {
+  window.location.replace(MIAA_AUTH_DOMAIN + '/session/end?' + formurlencoded({
     id_token_hint: getIdToken(),
-    post_logout_redirect_uri: APP_DOMAIN }),
-    {mode: 'no-cors'}
-  )
+    post_logout_redirect_uri: APP_DOMAIN
+  }))
   window.localStorage.clear()
 }
 
