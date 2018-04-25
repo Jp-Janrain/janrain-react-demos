@@ -1,25 +1,24 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import { isCurrentUser } from '../../Auth/AuthService'
 import MembersListItem from './MembersListItem';
 
 import { RELATIONSHIP_TYPES } from './_Config';
 import List from 'material-ui/List/List';
 
+class MembersList extends Component {
 
-const createMembersListItem = (member, status) => (
-    <MembersListItem
-        // key={}
-        user={member}
-        status={status}
-        // Below test would work if members list returned uuids
-        // canEdit={!isCurrentUser(user.uuid) && this.props.isHeadOf} />
-        // Instead canEdit is always true
-        canEdit={true} />
-)
+    createMembersListItem = (member, status) => (
+        // eslint-disable-next-line
+        <MembersListItem
+            key={member.uuid}
+            user={member}
+            status={status}
+            canEdit={!isCurrentUser(member.uuid) && this.props.isHeadOf ? true : false} />
+    )
 
-class MembersList extends PureComponent {
     render() {
-
         const members = {}
         const membersList = []
         // eslint-disable-next-line
@@ -32,13 +31,14 @@ class MembersList extends PureComponent {
                 member.relations.map((relationship) => {
                     if (relationship.code === relationshipType) {
                         members[relationshipType].push(
-                            createMembersListItem(user, relationship.status)
+                            this.createMembersListItem(user, relationship.status)
                         )
                     }
                 })
             })
             membersList.push(
-                <List>
+                <List
+                    key={relationshipLabel}>
                     {relationshipLabel + 's'}
                     {members[relationshipType]}
                 </List>

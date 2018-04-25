@@ -9,7 +9,7 @@ import ListItemText from 'material-ui/List/ListItemText';
 import MemberMenuPending from './MemberMenuPending';
 import MemberMenuActive from './MemberMenuActive';
 
-export default class MembersListItem extends Component {
+class MembersListItem extends Component {
 
     render() {
         const { props } = this
@@ -33,14 +33,15 @@ export default class MembersListItem extends Component {
         )
     }
 
-    propTypes = {
-        user: PropTypes.shape({
-            givenName: PropTypes.string.isRequired,
-            familyName: PropTypes.string.isRequired,
-        }).isRequired,
-        status: PropTypes.oneOf(['active', 'pending']).isRequired,
-        canEdit: PropTypes.bool.isRequired,
-    }
 }
 
+MembersListItem.propTypes = {
+    user: PropTypes.shape({
+        givenName: PropTypes.string.isRequired,
+        familyName: PropTypes.string.isRequired,
+    }).isRequired,
+    status: PropTypes.oneOf(['active', 'pending']).isRequired,
+    canEdit: PropTypes.bool.isRequired,
+}
 
+export default MembersListItem

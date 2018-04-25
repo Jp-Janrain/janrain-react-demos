@@ -59,7 +59,9 @@ export class MembersTab extends Component {
             return (
 
                 <div>
-                    <MembersList members={this.props.familyMembers} />
+                    <MembersList
+                        members={this.props.familyMembers}
+                        isHeadOf={this.props.isHeadOf} />
                     <div align="center">{membersActions}</div>
                     <MemberInviteDialog
                         isOpen={this.state.inviteDialogOpen}
