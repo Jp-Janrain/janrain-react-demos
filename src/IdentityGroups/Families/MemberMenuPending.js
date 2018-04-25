@@ -24,7 +24,7 @@ const MemberMenuPending = props => {
 
 MemberMenuPending.propTypes = {
     user: PropTypes.object.isRequired,
-    closeMoreIconMenu: PropTypes.func.isRequired,
+    // closeMoreIconMenu: PropTypes.func.isRequired,
 };
 
 export default MemberMenuPending;

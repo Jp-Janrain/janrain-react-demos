@@ -15,10 +15,12 @@ const MemberInviteDialog = props => {
 
     const inviteDialogActions = [
         <Button
+            key='close'
             color='secondary'
             onClick={props.closeAction}
         > Cancel</Button>,
         <Button
+            key='submit'
             color='primary'
             onClick={props.submitAction}
         > Submit</Button>

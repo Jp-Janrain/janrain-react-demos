@@ -22,7 +22,7 @@ class MemberMenuItemRemoveUser extends Component {
     }
     closeDialog = () => {
         this.setState({ dialogIsOpen: false })
-        this.props.closeMoreIconMenu()
+        // this.props.closeMoreIconMenu()
     }
     openDialog = () => {
         this.setState({ dialogIsOpen: true })
